@@ -1,0 +1,53 @@
+/* Add this to your styles.css or App.css */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px; /* Adjust the width as needed */
+  height: 22px; /* Adjust the height as needed */
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 20px; /* Adjust the border-radius to half of the height */
+}
+
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 16px; /* Adjust the height to slightly smaller than half of the switch height */
+  width: 16px; /* Adjust the width to the same size as the height */
+  left: 5px; /* Adjust the left position to center the slider within the switch */
+  bottom: 3px; /* Adjust the bottom position to center the slider within the switch */
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(15px); /* Adjust the translation based on the new slider size */
+  -ms-transform: translateX(15px);
+  transform: translateX(15px);
+}

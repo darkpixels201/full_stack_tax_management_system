@@ -1,0 +1,37 @@
+{
+  "files": {
+    "main.css": "/static/css/main.844545df.css",
+    "main.js": "/static/js/main.16a879d8.js",
+    "static/media/loginBg1.png": "/static/media/loginBg1.d11794e157b3629dda97.png",
+    "static/media/animated_Tax.jpg": "/static/media/animated_Tax.d545c71fff963070080a.jpg",
+    "static/media/taxOffice.jpeg": "/static/media/taxOffice.00f0f2cbbc6c5a8fba17.jpeg",
+    "static/media/bluebg.png": "/static/media/bluebg.fdfa2f03dd5f90b72f59.png",
+    "static/media/idCardFront.png": "/static/media/idCardFront.e710568209d5271b259b.png",
+    "static/media/dummyLogo.png": "/static/media/dummyLogo.6c13f9ff26a1ea7a723c.png",
+    "static/media/DMSans_18pt-Regular.ttf": "/static/media/DMSans_18pt-Regular.2c8600ab0e9535150736.ttf",
+    "static/media/DMSans_18pt-Medium.ttf": "/static/media/DMSans_18pt-Medium.0349932aab77a5e67bb6.ttf",
+    "static/media/DMSans_18pt-Thin.ttf": "/static/media/DMSans_18pt-Thin.6df37ffb782aaa57ecfa.ttf",
+    "static/media/DMSans_18pt-Light.ttf": "/static/media/DMSans_18pt-Light.581783dc3b15e52e85b6.ttf",
+    "static/media/DMSans_18pt-Bold.ttf": "/static/media/DMSans_18pt-Bold.bd64e4abe68114cae373.ttf",
+    "static/media/approved.png": "/static/media/approved.d9ba4f5aac2f90e3a2b7.png",
+    "static/media/rejected.png": "/static/media/rejected.2f2a5be650569496ac4e.png",
+    "static/media/profile1.png": "/static/media/profile1.95096f94d0e38a4a6f3c.png",
+    "static/media/company1.png": "/static/media/company1.44b6871024a2c38fe250.png",
+    "static/media/rateOfTax.png": "/static/media/rateOfTax.7813d1db8e6b9272d6c8.png",
+    "static/media/user.png": "/static/media/user.5570c45437e71e8a21c9.png",
+    "static/media/schedule.png": "/static/media/schedule.b7ca21abf9a52766a749.png",
+    "static/media/calendar.png": "/static/media/calendar.cd289ef81085d022c4c0.png",
+    "static/media/underSection.png": "/static/media/underSection.0146d6db46ade28b241b.png",
+    "static/media/excel.png": "/static/media/excel.f7ad53809690a1807fa6.png",
+    "static/media/dashboard2.png": "/static/media/dashboard2.cc03ce2757950bc9372a.png",
+    "static/media/edit.png": "/static/media/edit.bd176f6ff8952730f89b.png",
+    "static/media/cheque.png": "/static/media/cheque.036c268876834adbfd39.png",
+    "index.html": "/index.html",
+    "main.844545df.css.map": "/static/css/main.844545df.css.map",
+    "main.16a879d8.js.map": "/static/js/main.16a879d8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.844545df.css",
+    "static/js/main.16a879d8.js"
+  ]
+}

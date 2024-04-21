@@ -1,0 +1,49 @@
+/* @font-face {
+    font-family: 'regular';
+    src: url("../fonts/Roboto-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: 'bold';
+    src: url("../fonts/Roboto-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: 'light';
+    src: url("../fonts/Roboto-Light.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: 'medium';
+    src: url("../fonts/Roboto-Medium.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: 'thin';
+    src: url("../fonts/Roboto-Thin.ttf") format("truetype");
+} */
+@font-face {
+    font-family: 'regular';
+    src: url("../fonts/DMSans_18pt-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: 'bold';
+    src: url("../fonts/DMSans_18pt-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: 'light';
+    src: url("../fonts/DMSans_18pt-Light.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: 'medium';
+    src: url("../fonts/DMSans_18pt-Medium.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: 'thin';
+    src: url("../fonts/DMSans_18pt-Thin.ttf") format("truetype");
+}
+

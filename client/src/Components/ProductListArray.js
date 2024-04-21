@@ -1,0 +1,43 @@
+export const productListArray = [
+    {
+        id:1,
+        name:"Shirt",
+        image:"",
+        des:"Shirt lanlf jknbfdoifn dsv",
+        stock:"10",
+        SalePrice:"200",
+        PurchasePrice:"200",
+        status:true,
+    },
+    {
+        id:2,
+        name:"Shoes",
+        image:"",
+        des:"sjdf k jkfnd kjdsn",
+        stock:"08",
+        SalePrice:"1000",
+        PurchasePrice:"200",
+        status:true,
+    },
+    {
+        id:3,
+        name:"Jacket",
+        image:"",
+        des:"af nf jdsf isdoi",
+        stock:"5",
+        SalePrice:"2000",
+        PurchasePrice:"200",
+        status:true,
+    },
+    {
+        id:4,
+        name:"Upper",
+        image:"",
+        des:"ljdsn ljnvlsdv dsldas",
+        stock:"2",
+        SalePrice:"1500",
+        PurchasePrice:"200",
+        status:true,
+    },
+] 
+export default productListArray

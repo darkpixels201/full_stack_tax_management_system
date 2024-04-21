@@ -1,0 +1,88 @@
+.wrapper {
+    position: fixed;
+  box-sizing: border-box;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  background: rgba(52, 64, 84, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+.main {
+    max-height: 100vh;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 8px 8px 8px 8px;
+    border-bottom: 1px solid #d0d5dd;
+    background:  #fff;
+    @media (max-width: 464px) {
+      max-width: 90%;
+    }
+}
+
+
+/* .fade-in {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+} */
+
+/* .slide-in {
+  transform: translateY(-100%);
+  animation: slideIn 0.3s ease-in-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-10%);
+  }
+  to {
+    transform: translateY(0);
+  }
+} */
+
+.slide-fade-in {
+  opacity: 0;
+  transform: translateY(-100%);
+  animation: slideFadeIn 0.5s ease-in-out forwards;
+}
+
+.slide-fade-out {
+  opacity: 1;
+  transform: translateY(0);
+  animation: slideFadeOut 0.5s ease-in-out forwards;
+}
+
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}

@@ -1,0 +1,51 @@
+@import '../../../node_modules/react-datepicker/src/stylesheets/datepicker.scss';
+
+
+.CalendarDesign {
+    border: none;
+    width: 100px;
+    margin-right: 10px;
+  }
+  
+  .react-datepicker-wrapper {
+    align-self: center !important;
+  }
+  
+  
+  .CalendarBodyDesign{
+    border: none !important;
+  }
+  .react-datepicker__month-container {
+    color: #969eac;
+    font-family: 'medium';
+    border: 10px;
+    box-shadow: 0px 0px 8px -2px rgba(0,0,0,0.12);
+    border-radius: 10px;
+    
+  }
+  
+  .react-datepicker__header {
+    background-color: white !important;
+    border-radius: 10px;
+  }
+  
+  .react-datepicker__close-icon::after {
+    background-color: white ;
+    color: #333;
+    margin-right: 5px;
+    height: 10px !important;
+    width: 10px !important;
+    margin-top: 2px;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+/* .calendar-hover:hover {
+    background-color: green;
+    border-radius: 20px;
+    height: 35px;
+    width: 35px;
+
+} */
+

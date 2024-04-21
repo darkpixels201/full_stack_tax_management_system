@@ -1,0 +1,15 @@
+/* @import url('https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery.css'); */
+@import url('https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lg-zoom.css');
+@import url('https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lg-video.css');
+
+
+/* @import "../../../node_modules/animate.css/animate.min.css"; */
+/* @import "../../../node_modules/lightgallery/css/lightgallery.css"; */
+@import "../../../node_modules/lightgallery/css/lightgallery.css";
+/* @import '../../../node_modules/lightgallery.js/dist/css/lightgallery.css'; */
+@import '../../../node_modules/lightgallery.js/dist/css/lightgallery.css';
+/* @import "../../../node_modules/react-modal-video/scss/modal-video.scss"; */
+/* @import "common.scss";
+@import "_slider.scss";
+@import "_product-details.scss";
+@import "_product.scss" */

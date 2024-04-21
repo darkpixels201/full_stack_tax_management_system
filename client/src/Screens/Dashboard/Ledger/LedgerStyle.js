@@ -1,0 +1,44 @@
+import { colors } from "../../../utils/Colors";
+
+export const styles = {
+  tableHeader: {
+    width: "100%",
+    margin: "auto",
+    overflow: "hidden",
+    borderRadius: 2,
+    boxShadow: "0px 0px 8px -2px rgba(0,0,0,0.12)",
+  },
+  spaceBetween: {
+    padding: 20,
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  buttonInnerStyle: {
+    backgroundColor: colors.white,
+    border: "solid",
+    borderColor: "black",
+    borderRadius: 3,
+    borderWidth: 0.5,
+    color: colors.black,
+    padding: 9,
+    width: 50,
+    borderColor: colors.green,
+  },
+  iconHover: {
+    cursor:"pointer",
+    position: "relative",
+    display: "inline-block",
+    borderRadius: "50%",
+    transition: "background-color 0.3s ease",
+    height: 40,
+    width: 40,
+    display: "flex",
+    justifyContent: "center",
+  },
+  iconStyle: {
+    height: 22,
+    width: 22,
+    alignSelf: "center",
+    cursor: "pointer",
+  }
+};
