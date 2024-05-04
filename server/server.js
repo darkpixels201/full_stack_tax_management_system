@@ -1,3 +1,5 @@
+
+
 const dotenv = require('dotenv');
 dotenv.config(); 
 require('./dbconnection')
@@ -28,6 +30,12 @@ app.use(cors({
   origin: '*'
 }));
 
+// Add CORS middleware to allow requests from specified origins
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', 'https://darkpixels-tax.shop');
+//   // Other CORS headers can be added here as needed
+//   next();
+// });
 
 // app.use(function(req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "http://darkpixels-tax.shop");
@@ -51,9 +59,9 @@ app.use(cors({
 
 
 
-app.get('/', (req, res) => {
-  res.send('<h3>Tax Management System</h3>');
-});
+// app.get('/', (req, res) => {
+//   res.send('<h3>Tax Management System</h3>');
+// });
 
 // Middleware
 app.use(bodyParser.json());
@@ -88,3 +96,4 @@ app.get('/api/get_count',authMiddleware,  async (req,res)=>{
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
