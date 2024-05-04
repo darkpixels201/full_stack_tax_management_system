@@ -8,6 +8,10 @@ export const companies = async () => {
   return await axios.get(`company/all-companies`);
 };
 
+export const myCompanies = async () => {
+  return await axios.get('company/my-companies');
+};
+
 export const updateCompany = async (id, payload) => {
   return await axios.put(`company/update-company/${id}`, payload);
 };

@@ -14,13 +14,13 @@ const CustomTagCheckBox = ({
   errorMessage,
   setValueToState,
   value,
-  name
+  name,
+  percentage,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef(null);
-
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -38,7 +38,7 @@ const CustomTagCheckBox = ({
     // Set initial values if provided
     if (Array.isArray(value) && value.length > 0) {
       setSelectedOptions(value);
-      console.log("UseEffect Of a Value CustomTagCheckBox.js")
+      console.log("UseEffect Of a Value CustomTagCheckBox.js");
       // setValueToState(value);
     }
   }, [value]);
@@ -120,12 +120,11 @@ const CustomTagCheckBox = ({
       const labels = updatedSelectedOptions.map(
         (selectedOption) =>
           selectedOption.label ||
-          selectedOption.taxDeductionRate ||
+          `${selectedOption.taxDeductionRate}%` ||
           selectedOption?.underSection ||
           selectedOption
       );
 
-      console.log("set Value TO STATE", updatedSelectedOptions);
       // Call setValueToState with the updated labels
       setValueToState(labels.length > 0 ? labels : "");
 
@@ -133,10 +132,9 @@ const CustomTagCheckBox = ({
     });
   };
 
-
   // Handle the case where searchTerm is empty to show all options
-const allOptions = Array.isArray(options) ? options : [];
-const optionsToShow = searchTerm ? filteredOptions : allOptions;
+  const allOptions = Array.isArray(options) ? options : [];
+  const optionsToShow = searchTerm ? filteredOptions : allOptions;
 
   return (
     <div className="custom-dropdown" onClick={toggleDropdown} ref={dropdownRef}>
@@ -176,22 +174,42 @@ const optionsToShow = searchTerm ? filteredOptions : allOptions;
         {isOpen && (
           <div className="dropdown-options" onClick={handleDropdownClick}>
             {optionsToShow.map((option) => (
-              <CustomCheckbox
-                key={
-                  option?.label ||
-                  option?.taxDeductionRate ||
-                  option?.underSection ||
-                  option
-                }
-                label={
-                  option?.label ||
-                  option?.taxDeductionRate ||
-                  option?.underSection ||
-                  option
-                }
-                isChecked={selectedOptions?.includes(option)}
-                onChange={() => handleCheckboxChange(option)}
-              />
+              // <div
+              //   style={{
+              //     display: "flex",
+              //     flexDirection: "row",
+              //     alignItems: "center",
+              //   }}
+              // >
+                <CustomCheckbox
+                  key={
+                    option?.label ||
+                    option?.taxDeductionRate ||
+                    option?.underSection ||
+                    option
+                  }
+                  label={
+                    option?.label ||
+                    option?.taxDeductionRate ||
+                    // `${option?.taxDeductionRate}%` ||
+                    option?.underSection ||
+                    option
+                    // `${option}%`
+                  }
+                  isChecked={selectedOptions?.includes(option)}
+                  onChange={() => handleCheckboxChange(option)}
+                />
+                //  <CustomText
+                //   title={percentage && "%"}
+                //   titleStyle={{ fontSize: 16 }}
+                //   titleContainerStyle={{
+                //     marginLeft: -15,
+                //     marginBottom: 3,
+                //     position: "absolute",
+                //     zIndex: 20,
+                //   }}
+                // /> 
+              // </div>
             ))}
           </div>
         )}
@@ -231,6 +249,11 @@ const optionsToShow = searchTerm ? filteredOptions : allOptions;
                   option
                 }
                 titleStyle={{ fontSize: 11 }}
+              />
+              <CustomText
+                title={percentage && "%"}
+                titleStyle={{ fontSize: 11 }}
+                titleContainerStyle={{ marginLeft: -10 }}
               />
             </div>
           </>

@@ -165,8 +165,15 @@ const RateOfTax = () => {
                         sx={{ borderColor: colors.grey, borderWidth: 0.5 }}
                       >
                         <CustomText
-                          // title={row.date}
-                          title={"12-10-24"}
+                          title={new Date(row?.created_at).toLocaleDateString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            }
+                          )}
+                          // title={"12-10-24"}
                           titleStyle={{ fontFamily: "bold" }}
                           fontSize={14}
                         />
@@ -175,7 +182,7 @@ const RateOfTax = () => {
                         sx={{ borderColor: colors.grey, borderWidth: 0.5 }}
                       >
                         <CustomText
-                          title={row?.taxDeductionRate}
+                          title={`${row?.taxDeductionRate}%`}
                           fontSize={14}
                         />
                       </TableCell>

@@ -144,7 +144,7 @@ const CompanyDetail = () => {
                       marginTop: 2,
                     }}
                   >
-                    <CustomText title={option} titleStyle={{ fontSize: 11 }} />
+                    <CustomText title={`${option}%`} titleStyle={{ fontSize: 11 }} />
                   </div>
                 </>
               ))}

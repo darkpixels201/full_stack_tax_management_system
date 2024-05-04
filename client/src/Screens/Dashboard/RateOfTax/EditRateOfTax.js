@@ -9,8 +9,12 @@ import { _isValidate } from "../../../utils/validation.utils";
 import * as yup from "yup";
 import Services from "../../../services";
 import { toast } from "react-toastify";
+import useEnterKeyHandler from "../../../Components/KeyHandler";
 
 const EditRateOfTax = ({ onClose, name, rateOfTaxID, fetchRateOfTaxList, toggle }) => {
+
+  const [editLoading, isEditLoading] = useState()
+
   const [state, setState] = useState({
     rateOfTax: name,
   });
@@ -49,6 +53,7 @@ const EditRateOfTax = ({ onClose, name, rateOfTaxID, fetchRateOfTaxList, toggle 
       const payload = {
         taxDeductionRate: state.rateOfTax,
       };
+      isEditLoading(true)
       await Services.RateOfTax.updateRateOfTax(rateOfTaxID, payload)
         .then(async (res) => {
           console.log("UPDATE rate of tax Response", res);
@@ -56,13 +61,15 @@ const EditRateOfTax = ({ onClose, name, rateOfTaxID, fetchRateOfTaxList, toggle 
           //   navigate("/dashboard/companies");
           fetchRateOfTaxList()
           onClose();
-          // isLoading(false);
+          isEditLoading(false);
         })
-      console.log("Payload", payload);
     } catch (err) {
       console.log("Update Rate of tax Error", err);
+      isEditLoading(false)
     }
   };
+
+  useEnterKeyHandler(onSubmit)
 
   return (
     <div className="wrapper">
@@ -82,6 +89,7 @@ const EditRateOfTax = ({ onClose, name, rateOfTaxID, fetchRateOfTaxList, toggle 
             containerStyle={{ display: "flex", justifyContent: "flex-end" }}
             title={"Save"}
             onClick={onSubmit}
+            loading={editLoading}
           />
           <Spacer height={20} />
         </div>

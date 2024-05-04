@@ -81,6 +81,7 @@ const Login = () => {
           } else {
             dispatch(setUser({ user: response }));
             dispatch(setTokens({ access_token: response?.token }));
+            console.log("Login Response Final", response)
             toast.success("Login Successful");
             navigate("/dashboard");
             isLoading(true);

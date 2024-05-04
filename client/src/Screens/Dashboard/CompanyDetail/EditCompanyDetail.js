@@ -255,6 +255,7 @@ const EditCompanyDetail = ({
       value: rateOfTaxList,
       // options: state?.rateOfTax && state?.rateOfTax,
       options: rateOfTaxList && rateOfTaxList,
+      percentage: true
     },
     {
       id: 5,
@@ -359,16 +360,6 @@ const EditCompanyDetail = ({
                     />
                   ) : (
                     <div>
-                      {/* <CustomSearchDropDown
-                      placeholder={items.name}
-                      errorMessage={items.error}
-                      onSelect={items.onSelect}
-                      setValueToState={items.setValueToState}
-                      onChange={items.onchange}
-                      options={top100Films}
-                      containerStyle={styles.flexCenter}
-                      value={items.value}
-                    /> */}
                       <CustomTagCheckBox
                         placeholder={items.name}
                         errorMessage={items.error}
@@ -379,6 +370,7 @@ const EditCompanyDetail = ({
                         containerStyle={styles.flexCenter}
                         value={items.value}
                         name={items.name}
+                        percentage={items.percentage}
                         // value={[{ label: items.value }]}
                       />
                     </div>

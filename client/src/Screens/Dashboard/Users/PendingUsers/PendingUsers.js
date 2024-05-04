@@ -113,7 +113,9 @@ const PendingUsers = () => {
       {!homePageLoader ? (
         <CustomLoader />
       ) : (
-        <div style={{ paddingLeft: 40 }}>
+        <div
+        //  style={{ paddingLeft: 40 }}
+         >
           {filteredPendingUsers?.map((item, index) => (
             <div
               key={index}

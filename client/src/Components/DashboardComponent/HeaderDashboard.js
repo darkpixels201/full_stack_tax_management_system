@@ -12,8 +12,11 @@ import { BiBell } from "react-icons/bi";
 import { FiMail } from "react-icons/fi";
 import { icons } from "../../Assets/Icons";
 import { images } from "../../Assets/Images";
+import { useSelector } from "react-redux";
 
 const HeaderDashboard = ({ sideBar, setSideBar }) => {
+  const user = useSelector((state) => state?.userReducer?.user);
+
   const SearchArray = [
     {
       id: 1,
@@ -77,7 +80,13 @@ const HeaderDashboard = ({ sideBar, setSideBar }) => {
             />
           </div>
         ) : (
-          <div style={{ display: "flex", justifyContent:"center", alignItems:"center"}}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <GrMenu
               cursor={"pointer"}
               size={24}
@@ -111,6 +120,11 @@ const HeaderDashboard = ({ sideBar, setSideBar }) => {
               placeholder={"Type to Search"}
             />
           )} */}
+
+          <CustomText
+            title={`Hi! ${user?.user?.username}`}
+            titleStyle={{ fontFamily: "medium" }}
+          />
 
           <Spacer width={15} />
           <div
@@ -148,10 +162,10 @@ const HeaderDashboard = ({ sideBar, setSideBar }) => {
 
           <Spacer width={20} />
 
-          <DropDownList 
-          // SearchArray={SearchArray} 
-          Img={icons.profile1} />
-
+          <DropDownList
+            // SearchArray={SearchArray}
+            Img={icons.profile1}
+          />
 
           <Spacer width={20} />
 

@@ -146,8 +146,14 @@ const UnderSection = () => {
                       sx={{ borderColor: colors.grey, borderWidth: 0.5 }}
                     >
                       <CustomText
-                        title={"12-10-24"}
-                        // title={row.date}
+                      title={new Date(row?.created_at).toLocaleDateString(
+                        "en-US",
+                        {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        }
+                      )}
                         titleStyle={{ fontFamily: "bold" }}
                         fontSize={14}
                       />

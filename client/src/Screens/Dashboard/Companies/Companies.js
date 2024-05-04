@@ -26,14 +26,16 @@ const Companies = () => {
 
   const fetchAllCompanies = async () => {
     try {
-      const response = await Services.Company.companies();
-      console.log("List Of Companies", response);
+      const response = await Services?.Company?.myCompanies();
+      console.log("MY COMPANY ONLY", response);
       // const getCompanies = await response?.map((item)=>item?.companies)
       // console.log("GETEEETETTE",getCompanies)
-      setAllCompanies(response?.companies);
+      setAllCompanies(response);
+      // setAllCompanies(response?.companies);
       setHomePageLoader(true);
     } catch (error) {
-      console.log("Pending User Error", error);
+      console.log("Companies Error", error);
+      setHomePageLoader(false)
     }
   };
 

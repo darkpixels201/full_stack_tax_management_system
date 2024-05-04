@@ -9,6 +9,7 @@ import { _isValidate } from "../../../utils/validation.utils";
 import * as yup from "yup";
 import Services from "../../../services";
 import { toast } from "react-toastify";
+import useEnterKeyHandler from "../../../Components/KeyHandler";
 
 const EditUnderSection = ({
   onClose,
@@ -17,6 +18,9 @@ const EditUnderSection = ({
   fetchUnderSectionList,
   toggle
 }) => {
+
+  const [editLoading, isEditLoading] = useState()
+
   const [state, setState] = useState({
     underSection: name,
   });
@@ -52,6 +56,7 @@ const EditUnderSection = ({
       const payload = {
         underSection: state.underSection,
       };
+      isEditLoading(true)
       await Services.UnderSection.updateUnderSection(
         underSectionID,
         payload
@@ -61,13 +66,16 @@ const EditUnderSection = ({
         //   navigate("/dashboard/companies");
         fetchUnderSectionList();
         onClose();
-        // isLoading(false);
+        isEditLoading(false);
       });
       console.log("Payload", payload);
     } catch (err) {
       console.log("Under Section Error", err);
+      isEditLoading(false)
     }
   };
+
+  useEnterKeyHandler(onSubmit)
 
   return (
     <div className="wrapper">
@@ -85,6 +93,7 @@ const EditUnderSection = ({
             containerStyle={{ display: "flex", justifyContent: "flex-end" }}
             title={"Save"}
             onClick={onSubmit}
+            loading={editLoading}
           />
           <Spacer height={20} />
         </div>

@@ -9,8 +9,12 @@ import { _isValidate } from "../../../utils/validation.utils";
 import * as yup from "yup";
 import Services from "../../../services";
 import { toast } from "react-toastify";
+import useEnterKeyHandler from "../../../Components/KeyHandler";
 
 const AddUnderSection = ({ onClose, fetchUnderSectionList, toggle }) => {
+
+  const [addLoading, isAddLoading] = useState()
+
   const [state, setState] = useState({
     underSection: "",
   });
@@ -46,18 +50,22 @@ const AddUnderSection = ({ onClose, fetchUnderSectionList, toggle }) => {
       const payload = {
         underSection: state.underSection,
       };
+      isAddLoading(true)
       await Services.UnderSection.addUnderSection(payload).then((response) => {
-        console.log("Under Section Response", response);
         toast.success("Under Section Added Successfully");
         onClose();
         setState({ underSection: "" });
         fetchUnderSectionList();
+        isAddLoading(false)
       });
       console.log("Payload", payload);
     } catch (err) {
       console.log("Under Section Error", err);
+      isAddLoading(false)
     }
   };
+
+  useEnterKeyHandler(onSubmit)
 
   return (
     <div className="wrapper">
@@ -75,6 +83,7 @@ const AddUnderSection = ({ onClose, fetchUnderSectionList, toggle }) => {
             containerStyle={{ display: "flex", justifyContent: "flex-end" }}
             title={"Save"}
             onClick={onSubmit}
+            loading={addLoading}
           />
           <Spacer height={20} />
         </div>

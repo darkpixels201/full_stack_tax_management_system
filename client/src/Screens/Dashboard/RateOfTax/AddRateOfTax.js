@@ -9,8 +9,12 @@ import { _isValidate } from "../../../utils/validation.utils";
 import * as yup from "yup";
 import Services from "../../../services";
 import { toast } from "react-toastify";
+import useEnterKeyHandler from "../../../Components/KeyHandler";
 
 const AddRateOfTax = ({ onClose, fetchRateOfTaxList, toggle }) => {
+
+  const [addLoading, isAddLoading] = useState()
+
   const [state, setState] = useState({
     rateOfTax: "",
   });
@@ -47,6 +51,7 @@ const AddRateOfTax = ({ onClose, fetchRateOfTaxList, toggle }) => {
       const payload = {
         taxDeductionRate: state.rateOfTax,
       };
+      isAddLoading(true)
       await Services.RateOfTax.addRateOfTax(payload)
         .then((response) => {
           console.log("Rate Of Tax Response",response);
@@ -54,17 +59,22 @@ const AddRateOfTax = ({ onClose, fetchRateOfTaxList, toggle }) => {
             onClose()
             setState({rateOfTax:""})
             fetchRateOfTaxList()
+            isAddLoading(false)
         })
         .catch((err) => {
           console.log("Rate Of Tax Response Error", err);
+          isAddLoading(false)
           // toast.warning(err.response.data.message);
           // isLoading(false);
         });
       console.log("Payload", payload);
     } catch (err) {
+      isAddLoading(false)
       console.log("Rate Of Tax Error", err);
     }
   };
+
+  useEnterKeyHandler(onSubmit)
 
   return (
     <div className="wrapper">
@@ -85,6 +95,7 @@ const AddRateOfTax = ({ onClose, fetchRateOfTaxList, toggle }) => {
             containerStyle={{ display: "flex", justifyContent: "flex-end" }}
             title={"Save"}
             onClick={onSubmit}
+            loading={addLoading}
           />
           <Spacer height={20} />
         </div>
