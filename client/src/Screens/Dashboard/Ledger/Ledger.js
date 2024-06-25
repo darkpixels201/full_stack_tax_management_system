@@ -32,6 +32,7 @@ import Swal from "sweetalert2";
 import Lottie from "lottie-react";
 import loader from "../../../Assets/json/tax_animation.json";
 import { useSelector } from "react-redux";
+import { AiOutlineSearch } from "react-icons/ai";
 
 const Ledger = () => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const Ledger = () => {
   const [ledgerDetail, setLedgerDetail] = useState("");
   const [ledgerLoading, setLedgerLoading] = useState(false);
 
-  console.log("iiidddddd",data?._id)
+  console.log("iiidddddd", data?._id);
 
   useEffect(() => {
     getLedgerDetail();
@@ -54,7 +55,7 @@ const Ledger = () => {
     setLedgerLoading(true); // Set ledgerLoading to false when data is successfully fetched
     try {
       await Services?.Ledger?.LedgerById(data?._id || data?.companyId)
-      // await Services?.Ledger?.LedgerById(data?.companyId)
+        // await Services?.Ledger?.LedgerById(data?.companyId)
         .then((res) => {
           setLedgerDetail(res);
           setFilteredLedgerData(res);
@@ -109,7 +110,19 @@ const Ledger = () => {
     XLSX.writeFile(wb, `${data.companyName}.xlsx`);
   };
 
-  const handleSearchChange = (filteredData) => {
+  const handleSearchChange = (event) => {
+    const searchTerm = event?.target?.value?.toLowerCase();
+
+    const filteredData = ledgerDetail.filter(
+      (user) =>
+        user?.chequeNo?.toLowerCase().includes(searchTerm) ||
+        user?.bankName?.toLowerCase().includes(searchTerm) ||
+        user?.chequeAmount?.toString().toLowerCase().includes(searchTerm) ||
+        user?.taxAmount?.toString().toLowerCase().includes(searchTerm) ||
+        user?.taxDeductionRate?.toString().toLowerCase().includes(searchTerm) ||
+        user?.underSection?.toString().toLowerCase().includes(searchTerm)
+    );
+
     setFilteredLedgerData(filteredData);
   };
 
@@ -288,7 +301,7 @@ const Ledger = () => {
                 />
               </div>
               <Spacer width={20} />
-              <CustomSearchFilter
+              {/* <CustomSearchFilter
                 borderRadius={5}
                 height={2}
                 outerWidth={150}
@@ -298,7 +311,17 @@ const Ledger = () => {
                 data={LedgerData}
                 placeholder={"Type to Search"}
                 isLoading
-              />
+              /> */}
+              <div style={{ ...styles.inputContainerStyle, marginLeft: 60 }}>
+                <AiOutlineSearch />
+                <input
+                  type="text"
+                  placeholder="Search Pending Users"
+                  // value={ledgerDetail}
+                  onChange={handleSearchChange}
+                  style={styles.inputStyle}
+                />
+              </div>
             </div>
           </div>
           <TableContainer
@@ -450,7 +473,8 @@ const Ledger = () => {
                                 />
                               </div>
                               <Spacer width={5} />
-                              {data?.accessToDeleteLedger === true || user?.user?.type === "admin" ? (
+                              {data?.accessToDeleteLedger === true ||
+                              user?.user?.type === "admin" ? (
                                 <div
                                   style={commonStyle.deleteStyle}
                                   // onClick={DeleteOnClick}

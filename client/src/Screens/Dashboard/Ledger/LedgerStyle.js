@@ -40,5 +40,27 @@ export const styles = {
     width: 22,
     alignSelf: "center",
     cursor: "pointer",
-  }
+  },
+  inputContainerStyle: {
+    display: "flex",
+    alignItems: "center",
+    height: 2,
+    paddingTop:13,
+    paddingBottom:13,
+    paddingLeft:5,
+    borderRadius: 5,
+    border: "solid",
+    borderWidth: 1,
+    borderColor: colors.grey,
+    outline: "none",
+    width: 180,
+  },
+  inputStyle: {
+    border: "none",
+    borderColor: "none",
+    outline: "none",
+    width: "100%",
+    paddingLeft: 5,
+    backgroundColor: colors.bgWhite,
+  },
 };

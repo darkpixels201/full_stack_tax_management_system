@@ -20,9 +20,9 @@ const CustomSearchFilter = ({
   ...props
 }) => {
   const handleInputChange = (event) => {
-    const searchText = event.target.value.toLowerCase();
-    const filteredData = data.filter((item) =>
-      item.name.toLowerCase().includes(searchText)
+    const searchText = event?.target?.value?.toLowerCase();
+    const filteredData = data?.filter((item) =>
+      item?.name?.toLowerCase()?.includes(searchText)
     );
     onChange(filteredData);
   };
