@@ -31,6 +31,8 @@ const CreateLedger = () => {
   const [chequeLoading, setChequeLoading] = useState("");
   const [inputLoading, setInputLoading] = useState("");
   const [companyDetail, setCompanyDetail] = useState();
+  const [selectedUserId, setSelectedUserId] = useState("");
+
 
   const userType = useSelector((state) => state?.userReducer?.user);
 
@@ -138,32 +140,32 @@ const CreateLedger = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchChequeByBankName = async (selectedValue) => {
-      setChequeLoading(true);
-      try {
-        const response = await Services.Cheque.chequeByBankName(selectedValue);
-        const ListChequeNo = response?.flatMap((item) => item?.chequeNo);
-        setBankChequeList(ListChequeNo);
-        setChequeLoading(false);
-      } catch (error) {
-        setChequeLoading(false);
-        toast.error(error?.response?.data?.message);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchChequeByBankName = async (selectedValue) => {
+  //     setChequeLoading(true);
+  //     try {
+  //       const response = await Services.Cheque.chequeByBankName(selectedValue);
+  //       const ListChequeNo = response?.flatMap((item) => item?.chequeNo);
+  //       setBankChequeList(ListChequeNo);
+  //       setChequeLoading(false);
+  //     } catch (error) {
+  //       setChequeLoading(false);
+  //       toast.error(error?.response?.data?.message);
+  //     }
+  //   };
 
-    // Check if bankName is selected before fetching cheques
-    if (state.bankName) {
-      fetchChequeByBankName(state.bankName);
-    } else {
-      // If bankName is not selected, reset the cheque list
-      setBankChequeList([]);
-    }
-  }, [state.bankName]);
+  //   // Check if bankName is selected before fetching cheques
+  //   if (state.bankName) {
+  //     fetchChequeByBankName(state.bankName);
+  //   } else {
+  //     // If bankName is not selected, reset the cheque list
+  //     setBankChequeList([]);
+  //   }
+  // }, [state.bankName]);
 
   // fetchChequeByBankName(setBankChequeList)
 
-  console.log("ALL STATESSSSSSS", state?.companyId);
+  // console.log("ALL STATESSSSSSS", state?.companyId);
 
   const isValidate = () => {
     let schema = {
@@ -236,11 +238,17 @@ const CreateLedger = () => {
           setCompanyDetail(res);
           setUnderSectionList(res);
           setTaxDeductionRateList(res);
+          setSelectedUserId(res?.user)
+
+          console.log("COMPANY IDDDD RES",res)
 
           setState((prevState) => ({
             ...prevState,
             companyId: companyId,
           }));
+
+          
+
 
           const initialRate = res?.rateOfTax?.[0] || "";
           setInitialRateOfTax(initialRate);
@@ -304,7 +312,7 @@ const CreateLedger = () => {
       },
       setValueToState: (selectedValue) => {
         setState({ ...state, bankName: selectedValue });
-        fetchChequeByBankName(setBankChequeList, selectedValue);
+        fetchChequeByBankName(setBankChequeList, selectedValue, selectedUserId);
       },
       error: submitError.bankNameError,
       options: bankNames,
