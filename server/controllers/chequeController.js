@@ -148,11 +148,12 @@ exports.deleteCheque = async (req, res) => {
 
 // Get All Cheques by Bank Name
 exports.getChequesByBank = async (req, res) => {
-  const bankName = req.params.bankName;
+  // const bankName = req.params.bankName;
+  const {bankName, selectedUserId} = req?.body
 
   try {
     // Get all cheques for the bank
-    const cheques = await Cheque.find({ user: req.userId, bankName });
+    const cheques = await Cheque.find({ user: selectedUserId, bankName });
 
     if (!cheques || cheques.length === 0) {
       return res.status(404).json({ message: 'No cheques found for the specified bank' });
@@ -196,6 +197,7 @@ exports.getChequesByBank = async (req, res) => {
     res.json(formattedCheques);
   } catch (error) {
     res.status(500).json({ message: error.message });
+    console.log("Cheque Error",error)
   }
 };
 
