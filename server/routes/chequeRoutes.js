@@ -19,7 +19,7 @@ router.put('/update-cheque/:id', authMiddleware, chequeController.updateCheque);
 router.delete('/delete-cheque/:id', authMiddleware, chequeController.deleteCheque);
 
 // Get Cheques by Bank Name
-router.get('/by-bank/:bankName', authMiddleware, chequeController.getChequesByBank);
+router.post('/by-bank', authMiddleware, chequeController.getChequesByBank);
 
 // Get Cheques of All Users
 router.get('/all-users-cheques', authMiddleware, chequeController.getAllChequesForAllUsers);
