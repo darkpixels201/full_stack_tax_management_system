@@ -100,7 +100,6 @@ exports.getSingleCompany = async (req, res) => {
 };
 
 
-
 // Get Single Company
 exports.getCompany = async (req, res) => {
   const companyId = req.params.id;
