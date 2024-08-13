@@ -32,7 +32,8 @@ const CreateLedger = () => {
   const [inputLoading, setInputLoading] = useState("");
   const [companyDetail, setCompanyDetail] = useState();
   const [selectedUserId, setSelectedUserId] = useState("");
-
+  const [bankNameList, setBankNameList] = useState("")
+  console.log("Bank Name List",bankNameList)
 
   const userType = useSelector((state) => state?.userReducer?.user);
 
@@ -238,17 +239,15 @@ const CreateLedger = () => {
           setCompanyDetail(res);
           setUnderSectionList(res);
           setTaxDeductionRateList(res);
-          setSelectedUserId(res?.user)
+          setSelectedUserId(res?.user);
+          setBankNameList(res?.bankNames)
 
-          console.log("COMPANY IDDDD RES",res)
+          console.log("COMPANY IDDDD RES", res);
 
           setState((prevState) => ({
             ...prevState,
             companyId: companyId,
           }));
-
-          
-
 
           const initialRate = res?.rateOfTax?.[0] || "";
           setInitialRateOfTax(initialRate);
@@ -315,7 +314,7 @@ const CreateLedger = () => {
         fetchChequeByBankName(setBankChequeList, selectedValue, selectedUserId);
       },
       error: submitError.bankNameError,
-      options: bankNames,
+      options: bankNameList,
     },
     {
       id: 2,

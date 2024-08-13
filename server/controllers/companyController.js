@@ -114,7 +114,14 @@ exports.getCompany = async (req, res) => {
 
     console.log("Bank Names", bankNames);
 
-    res.json(company);
+    // Add the bankNames array to the company object
+    const companyWithBankNames = {
+      ...company._doc, // Spread the existing company document
+      bankNames, // Add the bankNames array
+  };
+
+  // Return the company with the bankNames included
+  res.json(companyWithBankNames);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
