@@ -32,7 +32,8 @@ const CreateLedger = () => {
   const [inputLoading, setInputLoading] = useState("");
   const [companyDetail, setCompanyDetail] = useState();
   const [selectedUserId, setSelectedUserId] = useState("");
-
+  const [bankNameList, setBankNameList] = useState("")
+  console.log("Bank Name List",bankNameList)
 
   const userType = useSelector((state) => state?.userReducer?.user);
 
@@ -140,28 +141,28 @@ const CreateLedger = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchChequeByBankName = async (selectedValue) => {
-  //     setChequeLoading(true);
-  //     try {
-  //       const response = await Services.Cheque.chequeByBankName(selectedValue);
-  //       const ListChequeNo = response?.flatMap((item) => item?.chequeNo);
-  //       setBankChequeList(ListChequeNo);
-  //       setChequeLoading(false);
-  //     } catch (error) {
-  //       setChequeLoading(false);
-  //       toast.error(error?.response?.data?.message);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchChequeByBankName = async (selectedValue) => {
+      setChequeLoading(true);
+      try {
+        const response = await Services.Cheque.chequeByBankName(selectedValue);
+        const ListChequeNo = response?.flatMap((item) => item?.chequeNo);
+        setBankChequeList(ListChequeNo);
+        setChequeLoading(false);
+      } catch (error) {
+        setChequeLoading(false);
+        toast.error(error?.response?.data?.message);
+      }
+    };
 
-  //   // Check if bankName is selected before fetching cheques
-  //   if (state.bankName) {
-  //     fetchChequeByBankName(state.bankName);
-  //   } else {
-  //     // If bankName is not selected, reset the cheque list
-  //     setBankChequeList([]);
-  //   }
-  // }, [state.bankName]);
+    // Check if bankName is selected before fetching cheques
+    if (state.bankName) {
+      fetchChequeByBankName(state.bankName);
+    } else {
+      // If bankName is not selected, reset the cheque list
+      setBankChequeList([]);
+    }
+  }, [state.bankName]);
 
   // fetchChequeByBankName(setBankChequeList)
 
@@ -238,9 +239,10 @@ const CreateLedger = () => {
           setCompanyDetail(res);
           setUnderSectionList(res);
           setTaxDeductionRateList(res);
-          setSelectedUserId(res?.user)
+          setSelectedUserId(res?.user);
+          setBankNameList(res?.bankNames)
 
-          console.log("COMPANY IDDDD RES",res)
+          console.log("COMPANY IDDDD RES", res);
 
           setState((prevState) => ({
             ...prevState,
@@ -315,7 +317,7 @@ const CreateLedger = () => {
         fetchChequeByBankName(setBankChequeList, selectedValue, selectedUserId);
       },
       error: submitError.bankNameError,
-      options: bankNames,
+      options: bankNameList,
     },
     {
       id: 2,
