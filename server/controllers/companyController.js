@@ -1,3 +1,4 @@
+const Cheque = require("../models/Cheque");
 const Company = require("../models/Company");
 const User = require("../models/User");
 
@@ -78,15 +79,14 @@ exports.getMyCompany = async (req, res) => {
     if (companies.length == 0) {
       return res.status(404).json({ message: "Company not found" });
     }
-    console.log("COMPANIES")
+    console.log("COMPANIES");
     res.json(companies);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-
-// Get Single Company 
+// Get Single Company
 exports.getSingleCompany = async (req, res) => {
   try {
     const companies = await Company.findOne({ user: req.userId });
@@ -99,7 +99,6 @@ exports.getSingleCompany = async (req, res) => {
   }
 };
 
-
 // Get Single Company
 exports.getCompany = async (req, res) => {
   const companyId = req.params.id;
@@ -109,6 +108,11 @@ exports.getCompany = async (req, res) => {
     if (!company) {
       return res.status(404).json({ message: "Company not found" });
     }
+
+    // Find distinct bank names associated with the user in the Cheque collection
+    const bankNames = await Cheque.distinct("bankName", { user: company.user });
+
+    console.log("Bank Names", bankNames);
 
     res.json(company);
   } catch (error) {
