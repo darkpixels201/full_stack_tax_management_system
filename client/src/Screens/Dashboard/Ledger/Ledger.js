@@ -443,7 +443,7 @@ const Ledger = () => {
                             sx={{ borderColor: colors.grey, borderWidth: 0.5 }}
                           >
                             <CustomText
-                              title={row?.taxDeductionRate}
+                              title={`${row?.taxDeductionRate}\%`}
                               fontSize={14}
                             />
                           </TableCell>

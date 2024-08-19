@@ -144,7 +144,7 @@ const ChequeList = () => {
                         <Spacer width={10} />
                         <div
                           style={commonStyle.deleteStyle}
-                          onClick={() => DeleteCheque(cheque.id)}
+                          onClick={() => DeleteCheque(cheque.chequeId)}
                         >
                           <FaTrash
                             style={commonStyle.deleteCenterPointer}
