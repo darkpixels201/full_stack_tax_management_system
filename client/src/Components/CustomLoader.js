@@ -3,7 +3,7 @@ import React from 'react'
 import loader from "../Assets/json/thickLoader.json";
 
 
-const CustomLoader = ({height, width}) => {
+const CustomLoader = ({height, width, customLoaderStyle}) => {
   return (
     <div
           style={{
@@ -14,7 +14,8 @@ const CustomLoader = ({height, width}) => {
             top: 0,
             right: 0,
             bottom: 0,
-            left: "12%",
+            // left: "12%",
+           ...customLoaderStyle 
           }}
         >
           <Lottie

@@ -10,12 +10,24 @@ import { icons } from "../../../../Assets/Icons";
 import CustomLoader from "../../../../Components/CustomLoader";
 import { styles } from "../../../../Assets/Style/PendingUserStyle";
 import { AiOutlineSearch } from "react-icons/ai";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { allCompaniesHeader, LedgerHeader } from "../../../../utils/DataArray";
 
 const AllCompanies = () => {
   const navigate = useNavigate();
   const [screenWidth] = UseWindowSize();
   const [allUserCompany, setAllUserCompany] = useState();
   const [homePageLoader, setHomePageLoader] = useState(false);
+
+  console.log("All User and Company", allUserCompany);
 
   const [filteredCompanies, setFilteredCompanies] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -89,7 +101,136 @@ const AllCompanies = () => {
           style={styles.inputStyle}
         />
       </div>
-      {homePageLoader ? (
+      <div style={{ paddingLeft: 30, paddingRight: 30 }}>
+        <Paper sx={{...styles.tableHeader, width:  screenWidth <= 750 ? "100%" :"60%",}}>
+          <TableContainer
+            sx={{ maxHeight: 580 }}
+            // sx={{width:"auto" }}
+          >
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  {allCompaniesHeader?.map((column) => (
+                    <TableCell
+                      key={column?.id}
+                      align={column?.align}
+                      sx={{ minWidth: column.minWidth }}
+                    >
+                      <CustomText
+                        title={column?.label}
+                        titleStyle={{ fontFamily: "medium" }}
+                      />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              {homePageLoader ? (
+                <TableBody>
+                  {filteredCompanies &&
+                    filteredCompanies?.map((row) => {
+                      const getFilteredCompanies = row?.companies?.filter(
+                        (company) => company.showToAdmin
+                      );
+                      return (
+                        <>
+                          {getFilteredCompanies?.map((items, innerIndex) => (
+                            <TableRow
+                              hover
+                              tabIndex={-1}
+                              key={innerIndex}
+                            >
+                              <TableCell
+                                sx={{
+                                  borderColor: colors.grey,
+                                  borderWidth: 0.5,
+                                }}
+                              >
+                                <CustomText
+                                  title={row?.username}
+                                  fontSize={14}
+                                />
+                              </TableCell>
+
+                              <TableCell
+                                sx={{
+                                  borderColor: colors.grey,
+                                  borderWidth: 0.5,
+                                  cursor:"pointer",
+                                  textDecoration: 'none',
+                                }}
+                                onMouseOver={(e) => {
+                                  e.target.style.textDecoration = 'underline';
+                                }}
+                                onMouseOut={(e) => {
+                                  e.target.style.textDecoration = 'none';
+                                }}
+                              >
+                                <CustomText
+                                onClick={() => handleCompanyDetail(items)}
+                                  title={items?.companyName}
+                                  fontSize={14}
+                                />
+                              </TableCell>
+
+                              <TableCell
+                                sx={{
+                                  borderColor: colors.grey,
+                                  borderWidth: 0.5,
+                                  paddingLeft: 4,
+                                }}
+                              >
+                                <img
+                                  src={
+                                    items.accessToDeleteLedger === true
+                                      ? icons.approved
+                                      : icons.rejected
+                                  }
+                                  style={{ height: 20, width: 20 }}
+                                />
+                              </TableCell>
+
+                              <TableCell
+                                sx={{
+                                  borderColor: colors.grey,
+                                  borderWidth: 0.5,
+                                  cursor:"pointer",
+                                  textDecoration:"none"
+                                }}
+                                onMouseOver={(e) => {
+                                  e.target.style.textDecoration = 'underline';
+                                }}
+                                onMouseOut={(e) => {
+                                  e.target.style.textDecoration = 'none';
+                                }}
+                              >
+                                <CustomText
+                                  title={"View Ledger"}
+                                  fontSize={14}
+                                  onClick={() => handleClick(items)}
+                                />
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </>
+                      );
+                    })}
+                </TableBody>
+              ) : (
+                <CustomLoader
+                  customLoaderStyle={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "60%",
+                    transform: "translate(-50%, -50%)",
+                  }}
+                />
+              )}
+              {/* )} */}
+            </Table>
+          </TableContainer>
+        </Paper>
+      </div>
+      {/* {homePageLoader ? (
         <>
           {filteredCompanies?.map((item, outerIndex) => {
             const filteredCompanies = item?.companies?.filter(
@@ -197,7 +338,7 @@ const AllCompanies = () => {
         </>
       ) : (
         <CustomLoader />
-      )}
+      )} */}
     </div>
   );
 };

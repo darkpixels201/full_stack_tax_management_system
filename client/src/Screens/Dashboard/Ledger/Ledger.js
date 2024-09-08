@@ -402,7 +402,7 @@ const Ledger = () => {
                             />
                           </TableCell>
                           <TableCell
-                            sx={{ borderColor: colors.grey, borderWidth: 0.5 }}
+                            sx={{ borderColor: colors.grey, borderWidth: 0.5, }}
                           >
                             <CustomText
                               // title={row?.companyName}
