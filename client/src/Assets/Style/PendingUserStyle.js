@@ -1,3 +1,4 @@
+
 import { colors } from "../../utils/Colors";
 
 export const styles = {
@@ -30,6 +31,13 @@ export const styles = {
     borderColor: colors.grey,
     outline: "none",
     width: 180,
+  },
+  tableHeader: {
+    width: "60%",
+    margin: "auto",
+    overflow: "hidden",
+    borderRadius: 2,
+    boxShadow: "0px 0px 8px -2px rgba(0,0,0,0.12)",
   },
   
 };

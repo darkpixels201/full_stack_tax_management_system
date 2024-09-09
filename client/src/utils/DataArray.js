@@ -147,6 +147,31 @@ export const LedgerHeader = [
   }
 ];
 
+
+export const allCompaniesHeader = [
+  {
+    id: "name",
+    label: "Name",
+    minWidth: 10,
+  },
+  {
+    id: "companyName",
+    label: "Company Name",
+    minWidth: 70,
+  },
+  {
+    id: "access",
+    label: "Delete",
+    minWidth: 10,
+    align: "center",
+  },
+  {
+    id: "viewLedger",
+    label: "View Ledger",
+    minWidth: 50,
+  },
+];
+
 export const LedgerData = [
   {
     id: 1,
