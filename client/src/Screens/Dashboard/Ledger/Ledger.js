@@ -33,6 +33,7 @@ import Lottie from "lottie-react";
 import loader from "../../../Assets/json/tax_animation.json";
 import { useSelector } from "react-redux";
 import { AiOutlineSearch } from "react-icons/ai";
+import CustomLoader from "../../../Components/CustomLoader";
 
 const Ledger = () => {
   const navigate = useNavigate();
@@ -352,19 +353,11 @@ const Ledger = () => {
                 </TableRow>
               </TableHead>
               {ledgerLoading ? (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "60%",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                >
-                  <Lottie
-                    animationData={loader}
-                    style={{ height: 150, width: 150 }}
-                  />
-                </div>
+                <TableRow>
+                  <TableCell colSpan={11}>
+                    <CustomLoader getLoader={loader} />
+                  </TableCell>
+                </TableRow>
               ) : (
                 <TableBody>
                   {filteredLedgerData &&

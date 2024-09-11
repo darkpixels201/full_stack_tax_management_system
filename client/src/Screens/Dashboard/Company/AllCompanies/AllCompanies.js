@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Services from "../../../../services";
 import CustomText from "../../../../Components/CustomComponents/CustomText";
-import { RiArrowRightSLine } from "react-icons/ri";
 import { colors } from "../../../../utils/Colors";
 import { UseWindowSize } from "../../../../Components/UseWindowSize";
 import Spacer from "../../../../Components/CustomComponents/Spacer";
@@ -19,15 +18,13 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { allCompaniesHeader, LedgerHeader } from "../../../../utils/DataArray";
+import { allCompaniesHeader } from "../../../../utils/DataArray";
 
 const AllCompanies = () => {
   const navigate = useNavigate();
   const [screenWidth] = UseWindowSize();
   const [allUserCompany, setAllUserCompany] = useState();
   const [homePageLoader, setHomePageLoader] = useState(false);
-
-  console.log("All User and Company", allUserCompany);
 
   const [filteredCompanies, setFilteredCompanies] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -102,7 +99,12 @@ const AllCompanies = () => {
         />
       </div>
       <div style={{ paddingLeft: 30, paddingRight: 30 }}>
-        <Paper sx={{...styles.tableHeader, width:  screenWidth <= 750 ? "100%" :"60%",}}>
+        <Paper
+          sx={{
+            ...styles.tableHeader,
+            width: screenWidth <= 750 ? "100%" : "60%",
+          }}
+        >
           <TableContainer
             sx={{ maxHeight: 580 }}
             // sx={{width:"auto" }}
@@ -127,18 +129,14 @@ const AllCompanies = () => {
               {homePageLoader ? (
                 <TableBody>
                   {filteredCompanies &&
-                    filteredCompanies?.map((row) => {
+                    filteredCompanies?.map((row, index) => {
                       const getFilteredCompanies = row?.companies?.filter(
                         (company) => company.showToAdmin
                       );
                       return (
-                        <>
+                        <React.Fragment key={row?.username || index}>
                           {getFilteredCompanies?.map((items, innerIndex) => (
-                            <TableRow
-                              hover
-                              tabIndex={-1}
-                              key={innerIndex}
-                            >
+                            <TableRow hover tabIndex={-1} key={innerIndex}>
                               <TableCell
                                 sx={{
                                   borderColor: colors.grey,
@@ -155,18 +153,18 @@ const AllCompanies = () => {
                                 sx={{
                                   borderColor: colors.grey,
                                   borderWidth: 0.5,
-                                  cursor:"pointer",
-                                  textDecoration: 'none',
+                                  cursor: "pointer",
+                                  textDecoration: "none",
                                 }}
                                 onMouseOver={(e) => {
-                                  e.target.style.textDecoration = 'underline';
+                                  e.target.style.textDecoration = "underline";
                                 }}
                                 onMouseOut={(e) => {
-                                  e.target.style.textDecoration = 'none';
+                                  e.target.style.textDecoration = "none";
                                 }}
                               >
                                 <CustomText
-                                onClick={() => handleCompanyDetail(items)}
+                                  onClick={() => handleCompanyDetail(items)}
                                   title={items?.companyName}
                                   fontSize={14}
                                 />
@@ -193,14 +191,14 @@ const AllCompanies = () => {
                                 sx={{
                                   borderColor: colors.grey,
                                   borderWidth: 0.5,
-                                  cursor:"pointer",
-                                  textDecoration:"none"
+                                  cursor: "pointer",
+                                  textDecoration: "none",
                                 }}
                                 onMouseOver={(e) => {
-                                  e.target.style.textDecoration = 'underline';
+                                  e.target.style.textDecoration = "underline";
                                 }}
                                 onMouseOut={(e) => {
-                                  e.target.style.textDecoration = 'none';
+                                  e.target.style.textDecoration = "none";
                                 }}
                               >
                                 <CustomText
@@ -211,134 +209,22 @@ const AllCompanies = () => {
                               </TableCell>
                             </TableRow>
                           ))}
-                        </>
+                        </React.Fragment>
                       );
                     })}
                 </TableBody>
               ) : (
-                <CustomLoader
-                  customLoaderStyle={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "60%",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                />
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <CustomLoader />
+                  </TableCell>
+                </TableRow>
               )}
               {/* )} */}
             </Table>
           </TableContainer>
         </Paper>
       </div>
-      {/* {homePageLoader ? (
-        <>
-          {filteredCompanies?.map((item, outerIndex) => {
-            const filteredCompanies = item?.companies?.filter(
-              (company) => company.showToAdmin
-            );
-            console.log("FILTERED COMPANIES", filteredCompanies);
-
-            if (filteredCompanies.length === 0) {
-              // Skip rendering if no companies to show
-              return null;
-            }
-
-            return (
-              <>
-                <div
-                  key={outerIndex}
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <Spacer height={30} />
-                    {filteredCompanies.length > 0 && (
-                      <div style={{ display: "flex" }}>
-                        <CustomText
-                          title={"User Name"}
-                          titleStyle={{ fontFamily: "medium" }}
-                        />
-                        <CustomText
-                          title={item?.username}
-                          titleStyle={{ fontFamily: "bold" }}
-                          titleContainerStyle={{ textAlign: "left" }}
-                        />
-                      </div>
-                    )}
-
-                    {filteredCompanies?.map((items, innerIndex) => (
-                      <div
-                        key={`${outerIndex}-${innerIndex}`}
-                        style={{
-                          width: screenWidth <= 768 ? "80%" : "100%",
-                          backgroundColor: colors.white,
-                          borderLeft: `5px solid ${colors.black2}`,
-                          borderRadius: 10,
-                          boxShadow: "0px 0px 8px -2px rgba(0,0,0,0.12)",
-                          margin: screenWidth <= 768 ? "20px auto" : "20px",
-                          textAlign: "center",
-                          padding: 15,
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <div style={{ display: "flex" }}>
-                            <img
-                              src={
-                                items.accessToDeleteLedger === true
-                                  ? icons.approved
-                                  : icons.rejected
-                              }
-                              style={{ height: 20, width: 20 }}
-                            />
-                            <CustomText
-                              onClick={() => handleCompanyDetail(items)}
-                              // onClick={console.log("Company name Pressed")}
-                              title={items?.companyName}
-                              titleContainerStyle={{
-                                alignSelf: "center",
-                                paddingRight: 5,
-                                cursor: "pointer",
-                              }}
-                              titleStyle={{ textAlign: "left" }}
-                            />
-                          </div>
-
-                          <div style={{ display: "flex" }}>
-                            <Spacer width={20} />
-                            <CustomText
-                              onClick={() => handleClick(items)}
-                              title={"View Ledger"}
-                              titleContainerStyle={{ cursor: "pointer" }}
-                              titleStyle={{
-                                fontFamily: "medium",
-                                textDecoration: "underline",
-                              }}
-                              rightIcon={
-                                <RiArrowRightSLine size={18} fontWeight={900} />
-                              }
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </>
-            );
-          })}
-        </>
-      ) : (
-        <CustomLoader />
-      )} */}
     </div>
   );
 };

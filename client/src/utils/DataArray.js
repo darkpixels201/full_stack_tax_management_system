@@ -172,6 +172,25 @@ export const allCompaniesHeader = [
   },
 ];
 
+export const chequeListHeader = [
+  {
+    id: 1,
+    label: "Bank Name",
+    minWidth: 40,
+  },
+  {
+    id: 2,
+    label: "Cheque No",
+    minWidth: 10,
+  },
+  {
+    id: 3,
+    label: "Action",
+    minWidth: 10,
+  },
+
+];
+
 export const LedgerData = [
   {
     id: 1,
