@@ -21,19 +21,36 @@ import { useSelector } from "react-redux";
 const CreateLedger = () => {
   const navigate = useNavigate();
   const [screenWidth] = UseWindowSize();
-  const [allCompanies, setAllCompanies] = useState();
-  const [underSectionList, setUnderSectionList] = useState("");
-  const [taxDeductionRateList, setTaxDeductionRateList] = useState("");
-  const [bankChequeList, setBankChequeList] = useState("");
-  const [calculatedTaxAmount, setCalculatedTaxAmount] = useState("");
+  const [chequeLoading, setChequeLoading] = useState(false);
+
+  // Company
   const [allUsersCompany, setAllUsersCompany] = useState("");
-  const [companyLoading, setCompanyLoading] = useState("");
-  const [chequeLoading, setChequeLoading] = useState("");
-  const [inputLoading, setInputLoading] = useState("");
+  const [allCompanies, setAllCompanies] = useState();
   const [companyDetail, setCompanyDetail] = useState();
+
+  // UnderSection
+  const [underSectionList, setUnderSectionList] = useState("");
+  const [initialUnderSection, setInitialUnderSection] = useState("");
+
+  //Tax Deduction Rate
+  const [taxDeductionRateList, setTaxDeductionRateList] = useState("");
+  const [initialRateOfTax, setInitialRateOfTax] = useState("");
+
+  // Bank
+  const [bankChequeList, setBankChequeList] = useState("");
+  const [bankNameList, setBankNameList] = useState("");
+
+  // Cheque
+  const [calculatedTaxAmount, setCalculatedTaxAmount] = useState("");
+
+  // Loader
+
+  const [bankLoading, setBankLoading] = useState(false);
+  const [companyLoading, setCompanyLoading] = useState("");
+  const [loading, isLoading] = useState(false);
+
+  // User
   const [selectedUserId, setSelectedUserId] = useState("");
-  const [bankNameList, setBankNameList] = useState("")
-  console.log("Bank Name List",bankNameList)
 
   const userType = useSelector((state) => state?.userReducer?.user);
 
@@ -78,8 +95,6 @@ const CreateLedger = () => {
     underSection: "",
     taxAmount: "",
   });
-
-  const [loading, isLoading] = useState(false);
 
   const [submitError, setSubmitError] = useState({
     partyNameError: "",
@@ -141,28 +156,25 @@ const CreateLedger = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchChequeByBankName = async (selectedValue) => {
-  //     setChequeLoading(true);
-  //     try {
-  //       const response = await Services.Cheque.chequeByBankName(selectedValue);
-  //       const ListChequeNo = response?.flatMap((item) => item?.chequeNo);
-  //       setBankChequeList(ListChequeNo);
-  //       setChequeLoading(false);
-  //     } catch (error) {
-  //       setChequeLoading(false);
-  //       toast.error(error?.response?.data?.message);
-  //     }
-  //   };
+  useEffect(() => {
+    // const fetchChequeByBankName = async (selectedValue) => {
+    //   setChequeLoading(true);
+    //   try {
+    //     const response = await Services.Cheque.chequeByBankName(selectedValue);
+    //     const ListChequeNo = response?.flatMap((item) => item?.chequeNo);
+    //     setBankChequeList(ListChequeNo);
+    //     setChequeLoading(false);
+    //   } catch (error) {
+    //     setChequeLoading(false);
+    //     toast.error(error?.response?.data?.message);
+    //   }
+    // };
 
-  //   // Check if bankName is selected before fetching cheques
-  //   if (state.bankName) {
-  //     fetchChequeByBankName(state.bankName);
-  //   } else {
-  //     // If bankName is not selected, reset the cheque list
-  //     setBankChequeList([]);
-  //   }
-  // }, [state.bankName]);
+    // If bankName is not selected, reset the cheque list
+    if (!state.bankName) {
+      setBankChequeList([]);
+    }
+  }, [state.bankName]);
 
   // fetchChequeByBankName(setBankChequeList)
 
@@ -234,15 +246,15 @@ const CreateLedger = () => {
 
   const getCompanyDetail = async (companyId) => {
     try {
+      setBankLoading(true);
       await Services.Company.companyDetail(companyId)
         .then((res) => {
           setCompanyDetail(res);
           setUnderSectionList(res);
           setTaxDeductionRateList(res);
           setSelectedUserId(res?.user);
-          setBankNameList(res?.bankNames)
-
-          console.log("COMPANY IDDDD RES", res);
+          setBankNameList(res?.bankNames);
+          setBankLoading(false);
 
           setState((prevState) => ({
             ...prevState,
@@ -254,7 +266,7 @@ const CreateLedger = () => {
 
           const initialUnderSection = res?.underSection?.[0] || "";
           setInitialUnderSection(initialUnderSection);
-          setInputLoading(true);
+          // setInputLoading(true);
 
           // Set the initial rate of tax as the default value for the "Tax Deduction Rate" field
           setState((prevState) => ({
@@ -265,17 +277,15 @@ const CreateLedger = () => {
         })
         .catch((err) => {
           console.log("Detail Error", err);
-          setInputLoading(false);
+          // setInputLoading(false);
+          setBankLoading(false);
         });
     } catch {
     } finally {
-      setInputLoading(false);
+      // setInputLoading(false);
       console.log("Loading Closed");
     }
   };
-
-  const [initialRateOfTax, setInitialRateOfTax] = useState("");
-  const [initialUnderSection, setInitialUnderSection] = useState("");
 
   useEffect(() => {
     const calculatedTax =
@@ -295,6 +305,21 @@ const CreateLedger = () => {
     }));
   };
 
+  const handleSetValueToState = async (selectedValue) => {
+    setState({ ...state, bankName: selectedValue });
+
+    console.log("Cheque Loading Function: ", chequeLoading);
+    // Only call fetchChequeByBankName when a valid bank name is selected
+    if (selectedValue && selectedValue !== "") {
+      await fetchChequeByBankName(
+        setBankChequeList,
+        selectedValue,
+        selectedUserId,
+        setChequeLoading
+      );
+    }
+  };
+
   const formArray = [
     {
       id: 1,
@@ -309,12 +334,15 @@ const CreateLedger = () => {
         // setState({ ...state, bankName: v.target.value });
         setSubmitError({ ...submitError, bankNameError: "" });
       },
-      setValueToState: (selectedValue) => {
-        setState({ ...state, bankName: selectedValue });
-        fetchChequeByBankName(setBankChequeList, selectedValue, selectedUserId);
-      },
+      setValueToState: handleSetValueToState,
+      // setValueToState: (selectedValue) => {
+      //   setState({ ...state, bankName: selectedValue });
+      //   fetchChequeByBankName(setBankChequeList, selectedValue, selectedUserId, setChequeLoading);
+      //   // fetchChequeByBankName(setBankChequeList, selectedValue, selectedUserId, setChequeLoading);
+      // },
       error: submitError.bankNameError,
       options: bankNameList,
+      loading: bankLoading,
     },
     {
       id: 2,
@@ -334,7 +362,7 @@ const CreateLedger = () => {
       options: bankChequeList && bankChequeList?.map((item) => item),
       // options: bankChequeList && bankChequeList?.flatMap(item => item?.chequeNo),
       value: state.chequeNo,
-      chequeLoading: chequeLoading,
+      loading: chequeLoading,
     },
     {
       id: 3,
@@ -470,6 +498,7 @@ const CreateLedger = () => {
                 error={items.error}
                 value={items.value}
                 readOnly={items.readOnly}
+                // loading={loading}
               />
             ) : (
               <CustomSearchDropDown
@@ -486,7 +515,7 @@ const CreateLedger = () => {
                   width: "100%",
                 }}
                 value={items.value}
-                loading={inputLoading}
+                loading={items.loading}
                 handlePartyNameSelect={handlePartyNameSelect}
                 isPartyNameSelected={isPartyNameSelected}
                 clearChequeNo={clearChequeNo}
