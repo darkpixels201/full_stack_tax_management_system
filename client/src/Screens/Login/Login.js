@@ -36,6 +36,29 @@ const Login = () => {
     passwordError: "",
   });
 
+  const containerStyle = {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 20,
+  };
+
+  const textStyle = { fontSize: 12 };
+
+  const infoBlock = (title, email, password) => (
+    <div>
+      <CustomText title={title} titleStyle={{ fontFamily: "bold" }} />
+      <div style={{ display: "flex" }}>
+        <CustomText title={"email:"} titleStyle={textStyle} />
+        <CustomText title={email} titleStyle={textStyle} />
+      </div>
+      <div style={{ display: "flex" }}>
+        <CustomText title={"Password:"} titleStyle={textStyle} />
+        <CustomText title={password} titleStyle={textStyle} />
+      </div>
+    </div>
+  );
+
   const isValidate = () => {
     let schema = {
       [SchemaKeys.Email]: yup.string().required().email(),
@@ -61,7 +84,6 @@ const Login = () => {
     return error ? false : true;
   };
 
-
   const onSubmit = async () => {
     if (!isValidate()) return;
     try {
@@ -81,7 +103,7 @@ const Login = () => {
           } else {
             dispatch(setUser({ user: response }));
             dispatch(setTokens({ access_token: response?.token }));
-            console.log("Login Response Final", response)
+            console.log("Login Response Final", response);
             toast.success("Login Successful");
             navigate("/dashboard");
             isLoading(true);
@@ -100,18 +122,19 @@ const Login = () => {
       isLoading(false);
     }
   };
-  useEnterKeyHandler(onSubmit)
+  useEnterKeyHandler(onSubmit);
 
   // const handleForgotPassword = async () => {
 
   // }
 
   return (
-    <div style={{}}>
+    <div style={{ display: "flex", justifyContent: "center" }}>
       <Spacer height={130} />
       <div
         style={{
           display: "flex",
+          flexDirection: "column",
           justifyContent: "center",
           height: "100vh",
           padding: 20,
@@ -261,6 +284,150 @@ const Login = () => {
               
             </div> */}
           </div>
+        </div>
+
+        {/* <div
+          style={{
+            // height: 100,
+            width: "100%",
+            boxShadow: "2px 1px 15px -1px rgba(0,0,0,0.10)",
+            backgroundColor: colors.white,
+            borderRadius: 10,
+            marginTop: 20,
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            // alignSelf:"center",
+            // alignItems:"center"
+          }}
+        >
+          <div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                padding: 20,
+              }}
+            >
+              <div>
+                <CustomText
+                  title={"Admin"}
+                  titleStyle={{ fontFamily: "bold" }}
+                />
+                <div style={{ display: "flex" }}>
+                  <CustomText title={"email:"} titleStyle={{ fontSize: 12 }} />
+                  <CustomText
+                    title={"admin@example.com"}
+                    titleStyle={{ fontSize: 12 }}
+                  />
+                </div>
+                <div style={{ display: "flex" }}>
+                  <CustomText
+                    title={"Password:"}
+                    titleStyle={{ fontSize: 12 }}
+                  />
+                  <CustomText
+                    title={"12345678"}
+                    titleStyle={{ fontSize: 12 }}
+                  />
+                </div>
+              </div>
+              <div>
+                <CustomButton
+                  title={"Copy"}
+                  titleStyle={{ fontSize: 12 }}
+                  innerContainerStyle={{ height: 10, width: 50 }}
+                />
+              </div>
+            </div>
+          </div>
+
+
+          <div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+              }}
+            >
+              <div>
+                <CustomText
+                  title={"User"}
+                  titleStyle={{ fontFamily: "bold" }}
+                />
+                <div style={{ display: "flex" }}>
+                  <CustomText title={"email:"} titleStyle={{ fontSize: 12 }} />
+                  <CustomText
+                    title={"zaid@example.com"}
+                    titleStyle={{ fontSize: 12 }}
+                  />
+                </div>
+                <div style={{ display: "flex" }}>
+                  <CustomText
+                    title={"Password:"}
+                    titleStyle={{ fontSize: 12 }}
+                  />
+                  <CustomText
+                    title={"12345678"}
+                    titleStyle={{ fontSize: 12 }}
+                  />
+                </div>
+              </div>
+              <div>
+                <CustomButton
+                  title={"Copy"}
+                  titleStyle={{ fontSize: 12 }}
+                  innerContainerStyle={{ height: 10, width: 50 }}
+                />
+              </div>
+            </div>
+          </div>
+
+          <Spacer height={10} />
+        </div> */}
+
+        <div
+          style={{
+            // width: "100%",
+            boxShadow: "2px 1px 15px -1px rgba(0,0,0,0.10)",
+            backgroundColor: colors.white,
+            borderRadius: 10,
+            marginTop: 20,
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            alignSelf: "center",
+          }}
+        >
+          <div>
+            <div style={containerStyle}>
+              {infoBlock("Admin", "usman@gmail.com", "12345678")}
+              <CustomButton
+                title={"Copy"}
+                titleStyle={textStyle}
+                containerStyle={{ alignSelf: "center" }}
+                innerContainerStyle={{ height: 10, width: 50 }}
+                onClick={()=> setState({email:"usman@gmail.com", password:"12345678"})}
+              />
+            </div>
+          </div>
+
+          <div>
+            <div style={containerStyle}>
+              {infoBlock("User", "babar@gmail.com", "12345678")}
+              <CustomButton
+                title={"Copy"}
+                titleStyle={textStyle}
+                containerStyle={{ alignSelf: "center" }}
+                innerContainerStyle={{ height: 10, width: 50 }}
+                onClick={()=> setState({email:"babar@gmail.com", password:"12345678"})}
+              />
+            </div>
+          </div>
+
+          <Spacer height={10} />
         </div>
       </div>
       {/* <img
