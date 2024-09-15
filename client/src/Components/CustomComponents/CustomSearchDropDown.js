@@ -213,7 +213,7 @@ const CustomSearchDropDown = ({
       />
       {/* </div> */}
       {isOpen && (
-        <div className="dropdown-options" style={{ ...dropDownStyle, }}>
+        <div className="dropdown-options" style={{ ...dropDownStyle }}>
           {filteredOptions &&
             filteredOptions?.map((option, index) => (
               <div
