@@ -157,6 +157,7 @@ const CreateLedger = () => {
   };
 
   useEffect(() => {
+
     // const fetchChequeByBankName = async (selectedValue) => {
     //   setChequeLoading(true);
     //   try {
@@ -260,6 +261,9 @@ const CreateLedger = () => {
             ...prevState,
             companyId: companyId,
           }));
+
+          
+
 
           const initialRate = res?.rateOfTax?.[0] || "";
           setInitialRateOfTax(initialRate);
