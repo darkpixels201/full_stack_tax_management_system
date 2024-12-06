@@ -18,7 +18,8 @@ export const icons = {
     cheque: require("./cheque.png"),
     rateOfTax: require("./rateOfTax.png"),
     underSection: require("./underSection.png"),
-
+    factsLogo: require("./factsLogo.png"),
+    
     
     
     

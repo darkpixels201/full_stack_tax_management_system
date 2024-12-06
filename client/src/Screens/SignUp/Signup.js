@@ -143,7 +143,7 @@ const Signup = () => {
           }}
         >
           <div
-            style={{ display: "flex", flexDirection: "column", width: "100%" }}
+            style={{ display: "flex", flexDirection: "column", width: "100%", justifyContent:"center" }}
           >
             <Spacer height={30} />
             <div
@@ -155,11 +155,11 @@ const Signup = () => {
             >
               <img
                 alt="Logo"
-                src={icons.dummyLogo}
-                style={{ height: 80, width: 100 }}
+                src={icons.factsLogo}
+                style={{ height: 250, width: 250, position:"absolute" }}
               />
             </div>
-            <Spacer height={30} />
+            <Spacer height={50} />
             <div style={{ paddingLeft: 50 }}>
               <CustomText
                 title="sign in to continue"

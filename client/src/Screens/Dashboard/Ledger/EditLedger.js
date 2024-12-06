@@ -18,6 +18,7 @@ import Services from "../../../services";
 import { toast } from "react-toastify";
 import { fetchRateOfTaxList } from "../../../store/actions/rateOfTaxAction";
 import { fetchUnderSectionList } from "../../../store/actions/underSectionAction";
+import { fetchChequeByBankName } from "../../../store/actions/chequeAction";
 
 const EditLedger = ({
   LedgerId,
@@ -48,6 +49,12 @@ const EditLedger = ({
   const [loading, setLoading] = useState(false);
 
   const [calculatedTaxAmount, setCalculatedTaxAmount] = useState("");
+
+   // User
+   const [selectedUserId, setSelectedUserId] = useState("");
+
+
+   const [chequeLoading, setChequeLoading] = useState(false);
 
   useEffect(() => {
     const calculatedTax =
@@ -167,31 +174,59 @@ const EditLedger = ({
     return error ? false : true;
   };
 
-  const fetchChequeByBankName = async (selectedValue) => {
-    // console.log("Bank Selected", selectedValue);
-    try {
-      await Services?.Cheque?.chequeByBankName(selectedValue || state.bankName)
-        .then((res) => {
-          // console.log("List Cheque", res);
-          const ListChequeNo = res?.flatMap((item) => item?.chequeNo);
-          setBankChequeList(ListChequeNo);
-        })
-        .catch((err) => {
-          toast.error(err?.response?.data?.message);
-        });
-    } catch (error) {
-      console.log("list Cheque Error", error);
+
+
+
+  // OLD FETCH CHEQUE BY BANK NAME
+
+  // const fetchChequeByBankName = async (selectedValue) => {
+  //   // console.log("Bank Selected", selectedValue);
+  //   try {
+  //     await Services?.Cheque?.chequeByBankName(selectedValue || state.bankName)
+  //       .then((res) => {
+  //         // console.log("List Cheque", res);
+  //         const ListChequeNo = res?.flatMap((item) => item?.chequeNo);
+  //         setBankChequeList(ListChequeNo);
+  //       })
+  //       .catch((err) => {
+  //         // toast.error(`${err?.response?.data?.message},"CATCH ERRROR"`);
+  //       });
+  //   } catch (error) {
+  //     console.log("list Cheque Error", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (state.bankName) {
+  //     fetchChequeByBankName(state.bankName);
+  //   } else {
+  //     // If bankName is not present, clear the cheque number list
+  //     setBankChequeList([]);
+  //   }
+  // }, [state.bankName]);
+
+
+
+  const handleSetValueToState = async (selectedValue) => {
+    setState({ ...state, bankName: selectedValue });
+
+    // console.log("Cheque Loading Function: ", chequeLoading);
+    // Only call fetchChequeByBankName when a valid bank name is selected
+    if (selectedValue && selectedValue !== "") {
+      await fetchChequeByBankName(
+        setBankChequeList,
+        selectedValue,
+        selectedUserId,
+        setChequeLoading
+      );
     }
   };
 
-  useEffect(() => {
-    if (state.bankName) {
-      fetchChequeByBankName(state.bankName);
-    } else {
-      // If bankName is not present, clear the cheque number list
-      setBankChequeList([]);
-    }
-  }, [state.bankName]);
+
+
+
+
+
 
   // Getting Rate Of Tax and Under Section from Company
 
@@ -201,6 +236,7 @@ const EditLedger = ({
         .then((res) => {
           setUnderSectionList(res);
           setRateOfTax(res);
+          setSelectedUserId(res?.user);
           console.log("Get Company Detail From Edit Screen ---", res);
         })
         .catch((err) => {
@@ -238,11 +274,12 @@ const EditLedger = ({
         // setState({ ...state, bankName: v.target.value });
         setSubmitError({ ...submitError, bankNameError: "" });
       },
-      setValueToState: (selectedValue) => {
-        setState({ ...state, bankName: selectedValue });
-        // setState({ ...state, bankName: state.bankName });
-        fetchChequeByBankName(selectedValue);
-      },
+      setValueToState: handleSetValueToState,
+      // setValueToState: (selectedValue) => {
+      //   setState({ ...state, bankName: selectedValue });
+      //   // setState({ ...state, bankName: state.bankName });
+      //   fetchChequeByBankName(selectedValue);
+      // },
       error: submitError.bankNameError,
       options: bankNames,
       value: state.bankName,

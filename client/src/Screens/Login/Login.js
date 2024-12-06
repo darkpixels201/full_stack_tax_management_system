@@ -129,7 +129,7 @@ const Login = () => {
           }}
         >
           <div
-            style={{ display: "flex", flexDirection: "column", width: "100%" }}
+            style={{ display: "flex", flexDirection: "column", width: "100%", justifyContent:"center" }}
           >
             <Spacer height={30} />
             <div
@@ -141,11 +141,12 @@ const Login = () => {
             >
               <img
                 alt="logo"
-                src={icons.dummyLogo}
-                style={{ height: 80, width: 80 }}
+                src={icons.factsLogo}
+                style={{ height: 250, width: 250, position:"absolute" }}
               />
             </div>
-            <Spacer height={30} />
+            {/* <Spacer height={20} /> */}
+            <Spacer height={70} />
             <div
               style={{
                 paddingLeft: 50,

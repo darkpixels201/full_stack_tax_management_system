@@ -118,10 +118,10 @@ exports.getCompany = async (req, res) => {
     const companyWithBankNames = {
       ...company._doc, // Spread the existing company document
       bankNames, // Add the bankNames array
-  };
+    };
 
-  // Return the company with the bankNames included
-  res.json(companyWithBankNames);
+    // Return the company with the bankNames included
+    res.json(companyWithBankNames);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -143,10 +143,36 @@ exports.updateCompany = async (req, res) => {
 
   try {
     // Find the company to be updated
-    const company = await Company.findOne({ _id: companyId, user: req.userId });
+
+    // let company;
+    // console.log("User Type",req.type)
+    // // Check if the logged-in user is an admin
+    // if (req.type === "superAdmin") {
+    //   // Allow admin to find any company by ID
+    //   company = await Company.findOne({ _id: companyId });
+    // } else {
+    //   // Find the company associated with the user
+    //   company = await Company.findOne({ _id: companyId, user: req.userId });
+    // }
+
+    // // const company = await Company.findOne({ _id: companyId, user: req.userId });
+    // console.log("COMPANY NAME", company)
+    // if (!company) {
+    //   return res.status(404).json({ message: "Company not found" });
+    // }
+
+    const company = await Company.findOne({ _id: companyId }).populate("user");
 
     if (!company) {
       return res.status(404).json({ message: "Company not found" });
+    }
+
+    if (company.user.type === "admin" || company.user.type === "superAdmin") {
+      // Allow admin or superAdmin actions
+      console.log("Admin or SuperAdmin Access");
+    } else {
+      // Regular user actions
+      console.log("Regular User Access");
     }
 
     // Check if companyName already exists
