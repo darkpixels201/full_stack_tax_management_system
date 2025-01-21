@@ -4,6 +4,8 @@ import "../../Assets/css/CustomSearchDrop.css";
 import FormComponent from "../FormComponent";
 import loader from "../../Assets/json/thickLoader.json";
 import Lottie from "lottie-react";
+import { RiPercentLine } from "react-icons/ri";
+import { colors } from "../../utils/Colors";
 
 const CustomSearchDropDown = ({
   placeholder,
@@ -23,12 +25,14 @@ const CustomSearchDropDown = ({
   loading,
   name,
   clearChequeNo,
+  ShowPercentageIcon,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(value || "");
   const [selectedOption, setSelectedOption] = useState(null);
   const inputRef = useRef(null);
   const dropdownRef = useRef(null);
+
 
   useEffect(() => {
     // Check if the partyName value is truthy (selected) and update the state
@@ -80,30 +84,22 @@ const CustomSearchDropDown = ({
     // setValueToState && setValueToState(selectedId);
     getCompanyDetail && getCompanyDetail(selectedId);
 
-    setSearchTerm(
+    // Determine the display value
+    let displayValue;
+    displayValue =
       option?.label ||
-        option?.name ||
-        option?.companyName ||
-        option?.taxDeductionRate ||
-        option?.underSection ||
-        option?.chequeNo ||
-        option?.username ||
-        option
-    );
+      option?.name ||
+      option?.companyName ||
+      option?.underSection ||
+      option?.chequeNo ||
+      option?.username ||
+      option;
 
-    // console.log("OPTIONSS_________",option)
+    setSearchTerm(displayValue);
 
-    setValueToState &&
-      setValueToState(
-        option?.label ||
-          option?.name ||
-          option?.companyName ||
-          option?.taxDeductionRate ||
-          option?.underSection ||
-          option?.chequeNo ||
-          option?.username ||
-          option
-      );
+    setValueToState && setValueToState(displayValue);
+
+    getCompanyDetail && getCompanyDetail(selectedId);
 
     onChange && onChange(option.value);
 
@@ -115,15 +111,12 @@ const CustomSearchDropDown = ({
     }
   };
 
+
   const handleClearSelection = () => {
     setSelectedOption(null);
     setSearchTerm("");
-
     onChange && onChange("");
-
     setValueToState && setValueToState("");
-
-    console.log("inputRef.current.id", inputRef.current.placeholder);
     if (inputRef.current && inputRef.current.placeholder === "Bank Name") {
       clearChequeNo && clearChequeNo("");
     }
@@ -139,9 +132,19 @@ const CustomSearchDropDown = ({
     }
   };
 
+  // useEffect(() => {
+  //   if (!ignoreInitialValue) {
+  //     const formattedValue =
+  //       value && options?.some((option) => option?.taxDeductionRate)
+  //         ? `${value}%`
+  //         : value || "";
+  //     setSearchTerm(formattedValue);
+  //   }
+  // }, [value, ignoreInitialValue, options]);
+
   useEffect(() => {
-    setSearchTerm(value || "");
-    // setSelectedOption(null);
+      setSearchTerm(value || "");
+    setSelectedOption(null);
   }, [value]);
 
   return (
@@ -168,6 +171,7 @@ const CustomSearchDropDown = ({
         type="text"
         placeholder={placeholder}
         error={errorMessage}
+        // value={ignoreInitialValue ? `${searchTerm}%` : searchTerm || initialValue}
         value={searchTerm || initialValue}
         onChange={handleSearchChange}
         readOnly={isPartyNameSelected}
@@ -206,7 +210,15 @@ const CustomSearchDropDown = ({
               className={`dropdown-arrow ${isOpen ? "open" : ""}`}
             >
               &#9660;
+            </div > 
+           
+            {ShowPercentageIcon && (
+            <div style={{backgroundColor:colors.grey5, padding:5, marginLeft:5, marginRight:-8, borderRadius:5}} >
+                  <RiPercentLine 
+                  style={{  padding:5 }} 
+                  />
             </div>
+                )}
           </>
         )}
         inputRef={inputRef}
@@ -221,6 +233,7 @@ const CustomSearchDropDown = ({
                 // key={option.value}
                 className="dropdown-option"
                 onClick={() => handleOptionSelect(option)}
+                style={{ alignItems: "center", display: "flex" }}
               >
                 {option?.label ||
                   option?.name ||
@@ -230,6 +243,9 @@ const CustomSearchDropDown = ({
                   option?.chequeNo ||
                   option?.username ||
                   option}
+                {ShowPercentageIcon && (
+                  <RiPercentLine style={{ marginLeft: 3 }} />
+                )}
               </div>
             ))}
         </div>

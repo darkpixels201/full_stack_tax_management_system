@@ -157,7 +157,6 @@ const CreateLedger = () => {
   };
 
   useEffect(() => {
-
     // const fetchChequeByBankName = async (selectedValue) => {
     //   setChequeLoading(true);
     //   try {
@@ -261,9 +260,6 @@ const CreateLedger = () => {
             ...prevState,
             companyId: companyId,
           }));
-
-          
-
 
           const initialRate = res?.rateOfTax?.[0] || "";
           setInitialRateOfTax(initialRate);
@@ -393,12 +389,20 @@ const CreateLedger = () => {
         setSubmitError({ ...submitError, taxDeductionRateError: "" });
       },
       setValueToState: (selectedValue) => {
-        setState({ ...state, taxDeductionRate: selectedValue });
+        setState({ 
+          ...state, 
+          taxDeductionRate: selectedValue
+        });
       },
       error: submitError.taxDeductionRateError,
       options: taxDeductionRateList?.rateOfTax,
+      // value: state.taxDeductionRate
+      //   ? `${state.taxDeductionRate}%`
+      //   : initialRateOfTax
+      //   ? `${initialRateOfTax}%`
+      //   : "",
+      ShowPercentageIcon: true,
       value: state.taxDeductionRate || initialRateOfTax || "",
-      // value: state.taxDeductionRate || initialRateOfTax || "",
       // initialValue: rateOfTaxList[0]
     },
     {
@@ -523,9 +527,11 @@ const CreateLedger = () => {
                 handlePartyNameSelect={handlePartyNameSelect}
                 isPartyNameSelected={isPartyNameSelected}
                 clearChequeNo={clearChequeNo}
+                ShowPercentageIcon={items.ShowPercentageIcon}
                 // initialValue={items.initialValue}
               />
             )}
+            
           </div>
         ))}
       </div>

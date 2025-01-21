@@ -338,6 +338,7 @@ const EditLedger = ({
 
       options: rateOfTaxList?.rateOfTax,
       value: state.taxDeductionRate || "",
+      ShowPercentageIcon: true
     },
     {
       id: 5,
@@ -466,6 +467,7 @@ const EditLedger = ({
                   dropDownHasOnChange={items.dropDownHasOnChange}
                   name={items.name}
                   clearChequeNo={clearChequeNo}
+                  ShowPercentageIcon={items.ShowPercentageIcon}
                 />
               )}
             </div>
