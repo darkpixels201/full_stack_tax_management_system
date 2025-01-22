@@ -54,22 +54,49 @@ const CompanyDetail = () => {
         cancelButtonColor: colors.grey2,
         confirmButtonText: "Yes, delete it!",
       });
-
+  
       if (result.isConfirmed) {
-        Services.Company.deleteCompany(id)
-          .then((res) => {
-            console.log("Delete Response", res);
-            toast.success("Company Deleted Successfully");
-            navigate("/dashboard/companies");
-          })
-          .catch((err) => {
-            console.log("Delete Company Error", err);
-          });
+        console.log("ID FOR DELETION", id);
+        const res = await Services.Company.deleteCompany(id); // Await the deleteCompany service
+        console.log("Delete Response", res);
+        toast.success("Company Deleted Successfully");
+        navigate("/dashboard/companies");
       }
     } catch (err) {
-      console.log("Error", err);
+      console.log("Delete Company Error", err);
+      toast.error("Failed to delete the company");
     }
   };
+  
+
+  // const deleteCompany = async () => {
+  //   try {
+  //     const result = await Swal.fire({
+  //       title: "Are you sure?",
+  //       text: "You will not be able to recover this company!",
+  //       icon: "warning",
+  //       showCancelButton: true,
+  //       confirmButtonColor: colors.primary,
+  //       cancelButtonColor: colors.grey2,
+  //       confirmButtonText: "Yes, delete it!",
+  //     });
+
+  //     if (result.isConfirmed) {
+  //       Services.Company.deleteCompany(id)
+  //       console.log("ID FOR DELETION",id)
+  //         .then((res) => {
+  //           console.log("Delete Response", res);
+  //           toast.success("Company Deleted Successfully");
+  //           navigate("/dashboard/companies");
+  //         })
+  //         .catch((err) => {
+  //           console.log("Delete Company Error", err);
+  //         });
+  //     }
+  //   } catch (err) {
+  //     console.log("Error", err);
+  //   }
+  // };
 
   console.log("LEDGER FROM DETAIL COMPANY",companyDetail?.accessToDeleteLedger)
 

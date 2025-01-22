@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import "../../Assets/css/CustomSearchDrop.css";
 import FormComponent from "../FormComponent";
@@ -33,11 +33,20 @@ const CustomSearchDropDown = ({
   const inputRef = useRef(null);
   const dropdownRef = useRef(null);
 
+  // useEffect(() => {
+  //   // Check if the partyName value is truthy (selected) and update the state
+  //   const isPartyNameSelected = useMemo(() => Boolean(value), [value]);
+  // }, [value]);
 
-  useEffect(() => {
-    // Check if the partyName value is truthy (selected) and update the state
-    setIsPartyNameSelected(Boolean(value));
-  }, [value]);
+  // const isPartyNameSelected = useMemo(() => {
+  //   return selectedOption?.value === value;
+  // }, [selectedOption, value]);
+
+  const [isActionTriggered, setIsActionTriggered] = useState(false);
+
+  const isPartyNameSelected = useMemo(() => {
+    return Boolean(value) || isActionTriggered;
+  }, [value, isActionTriggered]);
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -53,28 +62,33 @@ const CustomSearchDropDown = ({
     };
   }, []);
 
-  const filteredOptions =
-    options &&
-    options?.filter((option) => {
-      const optionLabel =
-        option?.label ||
-        option?.name ||
-        option?.companyName ||
-        option?.taxDeductionRate ||
-        option?.underSection ||
-        option?.chequeNo ||
-        option?.username ||
-        option;
-      return String(optionLabel)
-        .toLowerCase()
-        .includes(String(searchTerm).toLowerCase());
-    });
+  // Memoize the filtered options to avoid recalculating on every render
+  const filteredOptions = useMemo(() => {
+    return (
+      options &&
+      options.filter((option) => {
+        const optionLabel =
+          option?.label ||
+          option?.name ||
+          option?.companyName ||
+          option?.taxDeductionRate ||
+          option?.underSection ||
+          option?.chequeNo ||
+          option?.username ||
+          option;
+        return String(optionLabel)
+          .toLowerCase()
+          .includes(String(searchTerm).toLowerCase());
+      })
+    );
+  }, [options, searchTerm]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const [isPartyNameSelected, setIsPartyNameSelected] = useState(false);
+  // Memoize the isPartyNameSelected flag
+  //  const isPartyNameSelected = useMemo(() => Boolean(value), [value]);
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
@@ -105,12 +119,11 @@ const CustomSearchDropDown = ({
 
     // Set the flag indicating that partyName has been selected
     if (option.value === value) {
-      setIsPartyNameSelected(true);
+      setIsActionTriggered(true);
     } else {
-      setIsPartyNameSelected(false);
+      setIsActionTriggered(false);
     }
   };
-
 
   const handleClearSelection = () => {
     setSelectedOption(null);
@@ -143,7 +156,7 @@ const CustomSearchDropDown = ({
   // }, [value, ignoreInitialValue, options]);
 
   useEffect(() => {
-      setSearchTerm(value || "");
+    setSearchTerm(value || "");
     setSelectedOption(null);
   }, [value]);
 
@@ -189,7 +202,7 @@ const CustomSearchDropDown = ({
                   <RxCross2
                     fontSize={18}
                     onClick={() => {
-                      setIsPartyNameSelected(false);
+                      setIsActionTriggered(false);
                       handleClearSelection();
                     }}
                   />
@@ -210,15 +223,21 @@ const CustomSearchDropDown = ({
               className={`dropdown-arrow ${isOpen ? "open" : ""}`}
             >
               &#9660;
-            </div > 
-           
-            {ShowPercentageIcon && (
-            <div style={{backgroundColor:colors.grey5, padding:5, marginLeft:5, marginRight:-8, borderRadius:5}} >
-                  <RiPercentLine 
-                  style={{  padding:5 }} 
-                  />
             </div>
-                )}
+
+            {ShowPercentageIcon && (
+              <div
+                style={{
+                  backgroundColor: colors.grey5,
+                  padding: 5,
+                  marginLeft: 5,
+                  marginRight: -8,
+                  borderRadius: 5,
+                }}
+              >
+                <RiPercentLine style={{ padding: 5 }} />
+              </div>
+            )}
           </>
         )}
         inputRef={inputRef}
@@ -254,4 +273,5 @@ const CustomSearchDropDown = ({
   );
 };
 
-export default CustomSearchDropDown;
+// Wrap the component with React.memo
+export default React.memo(CustomSearchDropDown);
