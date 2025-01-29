@@ -25,13 +25,6 @@ const EditCompanyDetail = ({
 }) => {
   const [screenWidth] = UseWindowSize();
 
-  // const optionsWithCheckedState = options.map((option) => {
-  //   return {
-  //     ...option,
-  //     isChecked: value.includes(option.taxDeductionRate),
-  //   };
-  // });
-
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, isLoading] = useState(false);
   console.log("Company Detail EDIT", companyDetail);
@@ -51,52 +44,21 @@ const EditCompanyDetail = ({
   const [underSectionList, setUnderSectionList] = useState();
   console.log("RATE OF TAX LIST", rateOfTaxList);
 
-  // const getCompanyDetails = async () => {
-  //   try {
-  //     await Services.Company.companyDetail(companyDetail?._id)
-  //       .then((res) => {
-  //         // setCompanyDetail(res);
-  //         setRateOfTaxList(res?.rateOfTax);
-  //         setUnderSectionList(res?.underSection);
-  //         console.log("Company Detail res", res);
-  //       })
-  //       .catch((err) => {
-  //         console.log("Detail Error", err);
-  //       });
-  //   } catch {}
-  // };
-
-  // const getCompanyDetails = async () => {
-  //   try {
-  //     const res = await Services.Company.companyDetail(companyDetail?._id);
-  //     const selectedRates = res?.rateOfTax || []; // Existing rates of tax for the company
-  //     const allRates = await Services.RateOfTax.getRateOfTax(); // Fetch all available rates of tax
-  
-  //     // Map all rates with a 'selected' flag
-  //     const ratesWithSelection = allRates.map((rate) => ({
-  //       label: rate.taxDeductionRate,
-  //       selected: selectedRates.includes(rate.taxDeductionRate), // Check if this rate is in the company's existing list
-  //     }));
-  
-  //     setRateOfTaxList(ratesWithSelection);
-  //     setUnderSectionList(res?.underSection); // Existing logic
-  //   } catch (err) {
-  //     console.log("Detail Error", err);
-  //   }
-  // };
-
-
   const getCompanyDetails = async () => {
     try {
-      const res = await Services?.RateOfTax?.getRateOfTax();
-      const mergedRateOfTaxList = [...rateOfTaxList, ...res?.rateOfTax];
-      setRateOfTaxList(mergedRateOfTaxList);
-      console.log("All rate of tax list", res);
-    } catch (err) {
-      console.log("Rate Of Tax Error", err);
-    }
+      await Services.Company.companyDetail(companyDetail?._id)
+        .then((res) => {
+          // setCompanyDetail(res);
+          setRateOfTaxList(res?.rateOfTax);
+          setUnderSectionList(res?.underSection);
+          console.log("Company Detail res", res);
+        })
+        .catch((err) => {
+          console.log("Detail Error", err);
+        });
+    } catch {}
   };
-  
+
   useEffect(() => {
     getCompanyDetails();
   }, []);
@@ -276,34 +238,24 @@ const EditCompanyDetail = ({
       type: "text",
       isDropDown: true,
       onchange: (v) => {
+        // setState({ ...state, rateOfTax: v.target.value });
         setSubmitError({ ...submitError, rateOfTaxError: "" });
       },
       onSelect: (selectedOption) => {
-        const updatedRates = rateOfTaxList?.map((rate) => ({
-          ...rate,
-          selected: rate.label === selectedOption.label ? !rate.selected : rate.selected,
-        }));
-        setRateOfTaxList(updatedRates);
+        // setState({ ...state, rateOfTax: selectedOption });
         setSubmitError({ ...submitError, rateOfTaxError: "" });
       },
-      setValueToState: (selectedValues) => {
-        // Update the selected rates in the state
-        const updatedRates = rateOfTaxList.map((rate) => ({
-          ...rate,
-          selected: selectedValues.includes(rate.label),
-        }));
-        setRateOfTaxList(updatedRates);
-    
-        console.log("Updated Selected Rates", selectedValues);
+      setValueToState: (selectedValue) => {
+        // Set the selected value to the state
+        console.log("SLECTED VALUE", selectedValue);
+        // setState((prevState) => ({ ...prevState, rateOfTax: selectedValue }));
+        setState({ ...state, rateOfTax: selectedValue });
       },
       error: submitError.rateOfTaxError,
-      value: rateOfTaxList?.filter((rate) => rate.selected)?.map((rate) => rate?.label), // Only display selected rates
-      options: rateOfTaxList?.map((rate) => ({
-        label: rate.label,
-        value: rate.label,
-        selected: rate.selected,
-      })), // Provide all options with their current selection status
-      percentage: true,
+      value: rateOfTaxList,
+      // options: state?.rateOfTax && state?.rateOfTax,
+      options: rateOfTaxList && rateOfTaxList,
+      percentage: true
     },
     {
       id: 5,
