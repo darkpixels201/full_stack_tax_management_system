@@ -40,9 +40,9 @@ const EditCompanyDetail = ({
     // taxDeduction: companyDetail?.taxDeduction,
   });
 
+  const [rateOfTaxAllList, setRateOfTaxAllList] = useState();
   const [rateOfTaxList, setRateOfTaxList] = useState();
   const [underSectionList, setUnderSectionList] = useState();
-  console.log("RATE OF TAX LIST", rateOfTaxList);
 
   const getCompanyDetails = async () => {
     try {
@@ -59,9 +59,42 @@ const EditCompanyDetail = ({
     } catch {}
   };
 
+  const fetchRateOfTaxList = async () => {
+    try {
+      await Services?.RateOfTax?.getRateOfTax()
+        .then((res) => {
+          const getRateOfTax = res?.map((a) => a?.taxDeductionRate);
+          console.log("List rate of tax", res);
+          setRateOfTaxAllList(getRateOfTax);
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message);
+        });
+    } catch (error) {
+      console.log("Rate Of Tax Error", error);
+    }
+  };
+
   useEffect(() => {
     getCompanyDetails();
+    fetchRateOfTaxList();
+
+
   }, []);
+  
+  useEffect(() => {
+    if (rateOfTaxList) {
+      setRateOfTaxAllList((prevList) => [...new Set(prevList.concat(rateOfTaxList))]);
+    }
+  }, [rateOfTaxList]);
+  
+
+  // useEffect(() => {
+  //   if (rateOfTaxAllList && rateOfTaxList) {
+  //     setRateOfTaxAllList([...new Set(rateOfTaxAllList.concat(rateOfTaxList))]);
+  //   }
+  // }, []);
+  
 
   const [submitError, setSubmitError] = useState({
     companyNameError: "",
@@ -153,7 +186,7 @@ const EditCompanyDetail = ({
 
   const handleSubmit = async () => {
     if (!isValidate()) return;
-    console.log("TOGGLE STATUS",toggleStatus)
+    console.log("TOGGLE STATUS", toggleStatus);
     try {
       const payload = {
         companyName: state.companyName,
@@ -165,9 +198,9 @@ const EditCompanyDetail = ({
         // taxDeduction: state.taxDeduction,
         // showToAdmin: true,
         showToAdmin: state.showToAdmin,
-        accessToDeleteLedger: toggleStatus
+        accessToDeleteLedger: toggleStatus,
       };
-      console.log("Handle Submit Payload",payload)
+      console.log("Handle Submit Payload", payload);
       isLoading(true);
       await Services.Company.updateCompany(companyId, payload)
         .then(async (res) => {
@@ -254,8 +287,8 @@ const EditCompanyDetail = ({
       error: submitError.rateOfTaxError,
       value: rateOfTaxList,
       // options: state?.rateOfTax && state?.rateOfTax,
-      options: rateOfTaxList && rateOfTaxList,
-      percentage: true
+      options: rateOfTaxAllList && rateOfTaxAllList,
+      percentage: true,
     },
     {
       id: 5,
