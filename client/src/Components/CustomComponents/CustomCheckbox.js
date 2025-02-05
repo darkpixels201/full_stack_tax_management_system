@@ -1,8 +1,9 @@
 import React from "react";
 import "../../Assets/css/CustomSearchDrop.css";
 import { Checkbox } from '@mui/material';
+import Spacer from "./Spacer";
 
-const CustomCheckbox = ({ label, isChecked, onChange }) => {
+const CustomCheckbox = ({ label, isChecked, onChange, ShowPercentage }) => {
   return (
     <div
       className="dropdown-option"
@@ -16,6 +17,7 @@ const CustomCheckbox = ({ label, isChecked, onChange }) => {
       /> */}
       <Checkbox checked={isChecked} onChange={onChange} />
       {label}
+      {ShowPercentage && <ShowPercentage />}
     </div>
   );
 };

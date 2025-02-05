@@ -299,7 +299,8 @@ const AddCompany = () => {
       },
       error: submitError.rateOfTaxError,
       options: rateOfTaxList && rateOfTaxList,
-      percentage: true
+      // percentage: true
+      ShowPercentageIcon: true,
     },
     {
       id: 6,
@@ -398,7 +399,7 @@ const AddCompany = () => {
                   onChange={items.onchange}
                   options={items.options}
                   containerStyle={styles.flexCenter}
-                  percentage={items.percentage}
+                  percentage={items.ShowPercentageIcon}
                 />
               )}
             </>

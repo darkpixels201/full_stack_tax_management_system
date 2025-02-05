@@ -6,6 +6,7 @@ import { RxCross2 } from "react-icons/rx";
 import CustomText from "./CustomText";
 import { colors } from "../../utils/Colors";
 import Spacer from "./Spacer";
+import { RiPercentLine } from "react-icons/ri";
 
 const CustomTagCheckBox = ({
   options,
@@ -174,41 +175,48 @@ const CustomTagCheckBox = ({
         {isOpen && (
           <div className="dropdown-options" onClick={handleDropdownClick}>
             {optionsToShow.map((option) => (
-              // <div
-              //   style={{
-              //     display: "flex",
-              //     flexDirection: "row",
-              //     alignItems: "center",
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  // width:"100%",
+                }}
+              >
+
+              <CustomCheckbox
+                key={
+                  option?.label ||
+                  option?.taxDeductionRate ||
+                  option?.underSection ||
+                  option
+                }
+                label={
+                  option?.label ||
+                  option?.taxDeductionRate ||
+                  // `${option?.taxDeductionRate}%` ||
+                  option?.underSection ||
+                  option
+                  // `${option}%`
+                }
+                isChecked={selectedOptions?.includes(option)}
+                onChange={() => handleCheckboxChange(option)}
+                ShowPercentage={()=> percentage && <RiPercentLine />}
+              />
+              {/* {percentage && <RiPercentLine style={{ marginLeft: -8 }} />} */}
+             
+              </div>
+
+               //  <CustomText
+              //   title={percentage && "%"}
+              //   titleStyle={{ fontSize: 16 }}
+              //   titleContainerStyle={{
+              //     marginLeft: -15,
+              //     marginBottom: 3,
+              //     position: "absolute",
+              //     zIndex: 20,
               //   }}
-              // >
-                <CustomCheckbox
-                  key={
-                    option?.label ||
-                    option?.taxDeductionRate ||
-                    option?.underSection ||
-                    option
-                  }
-                  label={
-                    option?.label ||
-                    option?.taxDeductionRate ||
-                    // `${option?.taxDeductionRate}%` ||
-                    option?.underSection ||
-                    option
-                    // `${option}%`
-                  }
-                  isChecked={selectedOptions?.includes(option)}
-                  onChange={() => handleCheckboxChange(option)}
-                />
-                //  <CustomText
-                //   title={percentage && "%"}
-                //   titleStyle={{ fontSize: 16 }}
-                //   titleContainerStyle={{
-                //     marginLeft: -15,
-                //     marginBottom: 3,
-                //     position: "absolute",
-                //     zIndex: 20,
-                //   }}
-                // /> 
+              // />
               // </div>
             ))}
           </div>
@@ -250,6 +258,7 @@ const CustomTagCheckBox = ({
                 }
                 titleStyle={{ fontSize: 11 }}
               />
+              {/* {percentage && <RiPercentLine style={{ marginLeft: 3 }} />} */}
               <CustomText
                 title={percentage && "%"}
                 titleStyle={{ fontSize: 11 }}
