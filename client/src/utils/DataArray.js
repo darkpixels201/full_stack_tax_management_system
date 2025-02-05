@@ -1,3 +1,4 @@
+import { icons } from "../Assets/Icons";
 import { images } from "../Assets/Images";
 
 export const header = [
@@ -592,17 +593,17 @@ export const bankNames = [
   {
     id:1,
     name:"First Women Bank Limited",
-    logo:""
+    logo:icons.FirstWomenBank
   },
   {
     id:2,
     name:"National Bank of Pakistan",
-    logo:""
+    logo:icons.NationalBank
   },
   {
     id:3,
     name:"The Bank of Khyber",
-    logo:""
+    logo:icons.BankofKhayber
   },
   {
     id:4,
@@ -612,7 +613,7 @@ export const bankNames = [
   {
     id:5,
     name:"Sindh Bank Limited",
-    logo:""
+    logo:icons.SindhBank
   },
   {
     id:6,
@@ -637,7 +638,7 @@ export const bankNames = [
   {
     id:10,
     name:"Habib Bank",
-    logo:""
+    logo:icons.BankAlHabib
   },
   {
     id:11,
@@ -647,102 +648,102 @@ export const bankNames = [
   {
     id:12,
     name:"MCB Bank",
-    logo:""
+    logo:icons.MCB
   },
   {
     id:13,
     name:"Allied Bank limited",
-    logo:""
+    logo:icons.AlliedBank
   },
   {
     id:14,
     name:"Bank Al-Falah Limited",
-    logo:""
+    logo:icons.BankAlfalah
   },
   {
     id:15,
     name:"Bank Al-Habib Limited",
-    logo:""
+    logo:icons.BankAlHabib
   },
   {
     id:16,
     name:"Habib Metropolitan Bank Limited",
-    logo:""
+    logo:icons.HabibMetro
   },
   {
     id:17,
     name:"JS Bank Limited",
-    logo:""
+    logo:icons.JSBank
   },
   {
     id:18,
     name:"Samba Bank Limited",
-    logo:""
+    logo:icons.SambaBank
   },
   {
     id:19,
     name:"Askari Bank Limited",
-    logo:""
+    logo:icons.AskariBank
   },
   {
     id:20,
     name:"Standard Chartered Bank (Pakistan) Limited",
-    logo:""
+    logo:icons.StandardChartered
   },
   {
     id:21,
     name:"Soneri Bank Limited",
-    logo:""
+    logo:icons.SoneriBank
   },
   {
     id:22,
     name:"SILKBANK Limited",
-    logo:""
+    logo:icons.SILKBank
   },
   {
     id:23,
     name:"Summit Bank Limited",
-    logo:""
+    logo:icons.SummitBank
   },
   {
     id:24,
     name:"Meezan Bank Limited",
-    logo:""
+    logo:icons.meezanBank
   },
   {
     id:25,
     name:"Al-Baraka Bank (Pakistan) Limited",
-    logo:""
+    logo:icons.ALBarakh
   },
   {
     id:26,
     name:"Bank Islami Pakistan Limited",
-    logo:""
+    logo:icons.BankIslami
   },
   {
     id:27,
     name:"MCB Islamic Bank Limited",
-    logo:""
+    logo:icons.MCB
   },
   {
     id:28,
     name:"Dubai Islamic Bank Pakistan",
-    logo:""
+    logo:icons.DubaiIslamicBank
   },
   {
     id:29,
     name:"Faysal Bank Limited",
-    logo:""
+    logo:icons.FaysalBank
   },
   {
     id:30,
     name:"Citi Bank N.A",
-    logo:""
+    logo:icons.CitiBank
   },
   {
     id:31,
     name:"Deutsche Bank AG",
-    logo:""
+    logo:icons.DeutscheBankAG
   },
   {
     id:32,

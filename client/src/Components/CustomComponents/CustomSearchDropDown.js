@@ -6,6 +6,7 @@ import loader from "../../Assets/json/thickLoader.json";
 import Lottie from "lottie-react";
 import { RiPercentLine } from "react-icons/ri";
 import { colors } from "../../utils/Colors";
+import Spacer from "./Spacer";
 
 const CustomSearchDropDown = ({
   placeholder,
@@ -252,8 +253,10 @@ const CustomSearchDropDown = ({
                 // key={option.value}
                 className="dropdown-option"
                 onClick={() => handleOptionSelect(option)}
-                style={{ alignItems: "center", display: "flex" }}
+                style={{ alignItems: "center", display: "flex", fontSize:15 }}
               >
+                <img src={option.logo} style={{height:35, width:35}} />
+                <Spacer width={5} />
                 {option?.label ||
                   option?.name ||
                   option?.companyName ||

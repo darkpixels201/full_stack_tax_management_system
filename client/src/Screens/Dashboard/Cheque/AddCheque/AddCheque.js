@@ -36,6 +36,7 @@ const AddCheque = () => {
       const payload = {
         bankName: state.bankName,
         checkNo: state.chequeNo,
+        logo: state.logo
       };
       isLoading(true)
       await Services?.Cheque?.addCheque(payload).then((res) => {
