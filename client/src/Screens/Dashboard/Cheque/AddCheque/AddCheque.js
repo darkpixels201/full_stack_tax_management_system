@@ -14,16 +14,22 @@ import Services from "../../../../services";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useEnterKeyHandler from "../../../../Components/KeyHandler";
+import { icons } from "../../../../Assets/Icons";
+import { convertImageUrlToFile } from "../../../../utils/common.utils";
+import { styles } from "../../../../Assets/Style/AddCompanyStyle";
 
 const AddCheque = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [screenWidth] = UseWindowSize();
-  const [loading, isLoading] = useState()
+  const [loading, isLoading] = useState();
 
   const [state, setState] = useState({
     bankName: "",
     chequeNo: "",
+    chequeImage: "",
   });
+
+  console.log("STATETET", state);
 
   const [submitError, setSubmitError] = useState({
     bankNameError: "",
@@ -33,30 +39,39 @@ const AddCheque = () => {
   const onSubmit = async () => {
     if (!isValidate()) return;
     try {
-      const payload = {
-        bankName: state.bankName,
-        checkNo: state.chequeNo,
-        logo: state.logo
-      };
-      isLoading(true)
-      await Services?.Cheque?.addCheque(payload).then((res) => {
-        console.log("Cheque Response ---",res)
-        toast.success("Cheque Added Successfully")
-        navigate('/dashboard/chequelist')
-      }).catch((err) => {
-        console.log("Add Cheque Error",err)
-        // toast.warn(err?.response?.data?.message)
-        isLoading(false)
-      })
-      console.log("Payload", payload);
+      const formData = new FormData();
+      formData.append("bankName", state.bankName);
+      formData.append("checkNo", state.chequeNo);
+
+      if (state.chequeImage instanceof File) {
+        formData.append("chequeImage", state.chequeImage);
+      } else if (typeof state.chequeImage === "string") {
+        const file = await convertImageUrlToFile(state.chequeImage);
+        if (file) {
+          formData.append("chequeImage", file);
+        }
+      }
+
+      isLoading(true);
+      await Services?.Cheque?.addCheque(formData)
+        .then((res) => {
+          console.log("Cheque Response ---", res);
+          toast.success("Cheque Added Successfully");
+          navigate("/dashboard/chequelist");
+        })
+        .catch((err) => {
+          console.log("Add Cheque Error", err);
+          // toast.warn(err?.response?.data?.message)
+          isLoading(false);
+        });
+      console.log("Payload", formData);
     } catch (err) {
       console.log("Add Cheque Screen Error", err);
-      isLoading(false)
+      isLoading(false);
     }
   };
 
   useEnterKeyHandler(onSubmit);
-  
 
   const isValidate = () => {
     let schema = {
@@ -105,11 +120,16 @@ const AddCheque = () => {
           onChange={(v) => {
             setSubmitError({ ...submitError, bankNameError: "" });
           }}
-          setValueToState={(selectedValue) => {
-            setState({ ...state, bankName: selectedValue });
+          setValueToState={(selectedValue, selectedImage) => {
+            setState({
+              ...state,
+              bankName: selectedValue,  // Store the selected bank name
+              chequeImage: selectedImage, // Store the selected bank image
+            });
           }}
-          dropDownStyle={{width: screenWidth <= 768 ? "auto" : "30%" }}
+          dropDownStyle={{ width: screenWidth <= 768 ? "auto" : "40%" }}
           options={bankNames}
+          value={state.bankName}
           errorMessage={submitError.bankNameError}
           inputStyle={{ width: screenWidth <= 768 ? "100%" : "40%" }}
           containerStyle={{
@@ -135,7 +155,7 @@ const AddCheque = () => {
             setSubmitError({ ...submitError, chequeNoError: "" });
           }}
           error={submitError.chequeNoError}
-          type={'number'}
+          type={"number"}
         />
         <Spacer height={20} />
         <CustomButton

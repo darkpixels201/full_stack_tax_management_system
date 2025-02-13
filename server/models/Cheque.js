@@ -4,6 +4,7 @@ const chequeSchema = new mongoose.Schema({
   bankName: { type: String, required: true },
   checkNo: { type: String, required: true, unique: true },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  chequeImage: { type: String }, // Store image file path
   created_at: { type: Date, default: Date.now },
 
 });

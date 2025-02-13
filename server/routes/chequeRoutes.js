@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const upload = require("../middlewares/upload");
 const chequeController = require('../controllers/chequeController');
 const authMiddleware = require('../middlewares/authMiddleware');
 
-// Create Cheque
-router.post('/create-cheque', authMiddleware, chequeController.createCheque);
+
+// Create Cheque Route with Image Upload
+router.post("/create-cheque", authMiddleware, upload.single("chequeImage"), chequeController.createCheque);
 
 // Get All Cheques
 router.get('/all-cheques', authMiddleware, chequeController.getAllCheques);

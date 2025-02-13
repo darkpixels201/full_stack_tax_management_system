@@ -7,6 +7,8 @@ import Lottie from "lottie-react";
 import { RiPercentLine } from "react-icons/ri";
 import { colors } from "../../utils/Colors";
 import Spacer from "./Spacer";
+import { icons } from "../../Assets/Icons";
+import { images } from "../../Assets/Images";
 
 const CustomSearchDropDown = ({
   placeholder,
@@ -88,6 +90,8 @@ const CustomSearchDropDown = ({
     setIsOpen(!isOpen);
   };
 
+  const [selectedImage, setSelectedImage] = useState(null);
+
   // Memoize the isPartyNameSelected flag
   //  const isPartyNameSelected = useMemo(() => Boolean(value), [value]);
 
@@ -112,9 +116,15 @@ const CustomSearchDropDown = ({
 
     setSearchTerm(displayValue);
 
-    setValueToState && setValueToState(displayValue);
+    // Pass both name and image to state
+    setValueToState && setValueToState(displayValue, option?.logo || null);
+
+    // setValueToState && setValueToState(displayValue);
 
     getCompanyDetail && getCompanyDetail(selectedId);
+
+    // Store the selected image
+    setSelectedImage(option?.logo || null);
 
     onChange && onChange(option.value);
 
@@ -129,6 +139,7 @@ const CustomSearchDropDown = ({
   const handleClearSelection = () => {
     setSelectedOption(null);
     setSearchTerm("");
+    setSelectedImage("");
     onChange && onChange("");
     setValueToState && setValueToState("");
     if (inputRef.current && inputRef.current.placeholder === "Bank Name") {
@@ -185,30 +196,53 @@ const CustomSearchDropDown = ({
         type="text"
         placeholder={placeholder}
         error={errorMessage}
+        // Images={icons.AFT}
         // value={ignoreInitialValue ? `${searchTerm}%` : searchTerm || initialValue}
         value={searchTerm || initialValue}
         onChange={handleSearchChange}
         readOnly={isPartyNameSelected}
+        renderLeftItem={() => (
+          <>
+            {selectedImage && (
+              <img
+                src={selectedImage}
+                alt="Selected"
+                style={{
+                  height: 30,
+                  width: 30,
+                  borderRadius: 5,
+                  marginRight: 5,
+                }}
+              />
+            )}
+          </>
+        )}
         renderRightItem={() => (
           <>
+            {/* {selectedImage && (
+              <img
+                src={selectedImage}
+                alt="Selected"
+                style={{
+                  height: 30,
+                  width: 30,
+                  borderRadius: 5,
+                  marginRight: 5,
+                }}
+              />
+            )} */}
             {selectedOption ? (
-              <>
-                {selectedOption && (
-                  <RxCross2 fontSize={18} onClick={handleClearSelection} />
-                )}
-              </>
+              <RxCross2 fontSize={18} onClick={handleClearSelection} />
             ) : (
-              <>
-                {isPartyNameSelected && (
-                  <RxCross2
-                    fontSize={18}
-                    onClick={() => {
-                      setIsActionTriggered(false);
-                      handleClearSelection();
-                    }}
-                  />
-                )}
-              </>
+              isPartyNameSelected && (
+                <RxCross2
+                  fontSize={18}
+                  onClick={() => {
+                    setIsActionTriggered(false);
+                    handleClearSelection();
+                  }}
+                />
+              )
             )}
 
             {loading ? (
@@ -253,9 +287,12 @@ const CustomSearchDropDown = ({
                 // key={option.value}
                 className="dropdown-option"
                 onClick={() => handleOptionSelect(option)}
-                style={{ alignItems: "center", display: "flex", fontSize:15 }}
+                style={{ alignItems: "center", display: "flex", fontSize: 15 }}
               >
-                <img src={option.logo} style={{height:35, width:35}} />
+                {option.logo && (
+                  <img src={option.logo} style={{ height: 35, width: 35 }} />
+                )}
+
                 <Spacer width={5} />
                 {option?.label ||
                   option?.name ||

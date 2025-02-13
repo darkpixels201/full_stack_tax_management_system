@@ -1,7 +1,8 @@
 import axios from "./axios";
 
 export const addCheque = async (payload) => {
-  return await axios.post(`cheque/create-cheque`, payload);
+  console.log("Add Cheque Payload",payload)
+  return await axios.post(`cheque/create-cheque`, payload)
 };
 
 export const chequeList = async () => {

@@ -175,17 +175,22 @@ export const allCompaniesHeader = [
 
 export const chequeListHeader = [
   {
-    id: 1,
+    id:1,
+    label:"",
+    minWidth:40,
+  },
+  {
+    id: 2,
     label: "Bank Name",
     minWidth: 40,
   },
   {
-    id: 2,
+    id: 3,
     label: "Cheque No",
     minWidth: 10,
   },
   {
-    id: 3,
+    id: 4,
     label: "Action",
     minWidth: 10,
   },

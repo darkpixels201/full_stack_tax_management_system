@@ -20,6 +20,7 @@ const User=require('./models/User')
 const Cheque=require('./models/Cheque')
 const UnderSection=require('./models/UnderSection')
 const authMiddleware=require('./middlewares/authMiddleware');
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -62,6 +63,11 @@ app.use(cors({
 // app.get('/', (req, res) => {
 //   res.send('<h3>Tax Management System</h3>');
 // });
+
+// app.use("/uploads", express.static("uploads")); 
+
+// Serve static files from the uploads directory
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Middleware
 app.use(bodyParser.json());

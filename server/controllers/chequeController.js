@@ -1,22 +1,23 @@
 const User = require("../models/User");
 const Cheque = require("../models/Cheque");
 const Ledger = require("../models/Ledger");
+const upload = require("../middlewares/upload");
+
 // Create Cheque
 exports.createCheque = async (req, res) => {
-  const { bankName, checkNo } = req.body;
-
   try {
-    // Check if the checkNo already exists
-    const existingCheque = await Cheque.findOne({ checkNo });
+    const { bankName, checkNo } = req.body;
+    const chequeImage = req.file ? `uploads/${req.file.filename}` : null; // Get uploaded file path
 
+    // console.log("Received Image:", req.file); // Debugging log
+
+    // Check if checkNo already exists
+    const existingCheque = await Cheque.findOne({ checkNo });
     if (existingCheque) {
-      return res
-        .status(400)
-        .json({ message: "Cheque with the provided checkNo already exists" });
+      return res.status(400).json({ message: "Cheque already exists" });
     }
 
     const user = await User.findById(req.userId);
-
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -25,15 +26,25 @@ exports.createCheque = async (req, res) => {
       bankName,
       checkNo,
       user: req.userId,
+      chequeImage, // Save filename
     });
 
     await cheque.save();
 
-    res.status(201).json({ message: "Cheque created successfully", cheque });
+    // Construct full image URL
+    const imageUrl = chequeImage
+      ? `${req.protocol}://${req.get("host")}/uploads/${chequeImage}`
+      : null;
+
+    res.status(201).json({
+      message: "Cheque created successfully",
+      cheque: { ...cheque._doc, chequeImage: imageUrl },
+    });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
+
 
 // Get All Cheques of User
 exports.getAllCheques = async (req, res) => {
@@ -43,22 +54,29 @@ exports.getAllCheques = async (req, res) => {
     const bankIdCounterMap = new Map();
 
     // Get the list of cheque numbers used in ledger
-    const usedChequeNumbers = await Ledger.distinct("chequeNo");
+    const usedChequeNumbers = new Set(await Ledger.distinct("chequeNo"));
 
     // Filter out cheques that are used in ledger
     const filteredCheques = cheques.filter(
-      (cheque) => !usedChequeNumbers.includes(cheque.checkNo)
+      (cheque) => !usedChequeNumbers.has(cheque.checkNo)
     );
+
     const formattedCheques = [];
 
     filteredCheques.forEach((cheque) => {
-      const { bankName, checkNo, _id, created_at } = cheque;
+      const { bankName, checkNo, _id, created_at, chequeImage } = cheque;
 
+      // console.log("Cheque Image:", chequeImage);
+
+      // Generate full image URL if chequeImage exists
+      const imageUrl = chequeImage
+        ? `${req.protocol}://${req.get("host")}/${chequeImage}`
+        : null;
+
+      // If the bank is not yet added, initialize it
       if (!bankIdCounterMap.has(bankName)) {
         bankIdCounterMap.set(bankName, 1);
       }
-
-      const bankIdCounter = bankIdCounterMap.get(bankName);
 
       const existingBankIndex = formattedCheques.findIndex(
         (item) => item.bankName === bankName
@@ -67,23 +85,42 @@ exports.getAllCheques = async (req, res) => {
       if (existingBankIndex === -1) {
         formattedCheques.push({
           bankName,
-          chequeNo: [{ chequeId: _id, chequeNo: checkNo, created_at }],
+          chequeNo: [
+            {
+              chequeId: _id,
+              chequeNo: checkNo,
+              created_at,
+              chequeImage: imageUrl, // Store full image URL
+            },
+          ],
         });
       } else {
-        const existingBank = formattedCheques[existingBankIndex];
-        existingBank.chequeNo.push({ id: _id, chequeNo: checkNo, created_at });
+        formattedCheques[existingBankIndex].chequeNo.push({
+          chequeId: _id,
+          chequeNo: checkNo,
+          created_at,
+          chequeImage: imageUrl, // Store full image URL
+        });
       }
 
-      bankIdCounterMap.set(bankName, bankIdCounter + 1);
+      // Increment bank counter
+      bankIdCounterMap.set(bankName, bankIdCounterMap.get(bankName) + 1);
     });
+
+    // Assign unique IDs to formatted cheques
     formattedCheques.forEach((obj, index) => {
       obj.id = index + 1;
     });
+
     res.json(formattedCheques);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Error fetching cheques:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
+
 
 // Get Cheque by ID
 exports.getChequeById = async (req, res) => {
@@ -145,7 +182,7 @@ exports.deleteCheque = async (req, res) => {
     }
     await Cheque.findByIdAndDelete(chequeId);
 
-    console.log("List Of Cheque", cheque);
+    // console.log("List Of Cheque", cheque);
 
     // Check if any other cheques are associated with the same bank
     const chequesInBank = await Cheque.findOne({ bank: cheque.bank });

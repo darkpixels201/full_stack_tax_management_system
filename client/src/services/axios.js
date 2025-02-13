@@ -14,22 +14,30 @@ const instance = Axios.create({
 // timeout of 30000ms exceeded
 
 instance.interceptors.request.use(
-  async config => {
-    const {tokens} = store?.getState()?.authReducer;
-    console.log("Axios Token",tokens?.access_token)
+  async (config) => {
+    const { tokens } = store?.getState()?.authReducer;
+    console.log("Axios Token", tokens?.access_token);
+
     if (tokens) {
-      config.headers['Authorization'] = tokens?.access_token;
+      config.headers["Authorization"] = tokens?.access_token;
     }
-    // console.log('tokens',tokens);
-    config.headers.Accept = 'application/json';
-    // config.headers['X-DeviceId'] = 'ReactNative';
-    config.headers['Content-Type'] = 'application/json';
+
+    // Dynamically set Content-Type based on data type
+    if (config.data instanceof FormData) {
+      // Let Axios set the correct boundary
+      config.headers["Content-Type"] = "multipart/form-data";
+    } else {
+      config.headers["Content-Type"] = "application/json";
+    }
+
+    config.headers.Accept = "application/json";
     return config;
   },
-  err => {
+  (err) => {
     return Promise.reject(err);
-  },
+  }
 );
+
 
 instance.interceptors.response.use(
   response =>

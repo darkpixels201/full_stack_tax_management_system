@@ -100,15 +100,13 @@ const ChequeList = () => {
 
   const fetchChequeList = async () => {
     try {
-      await Services.Cheque.chequeList()
-        .then((res) => {
-          console.log("List Of Cheque", res);
-          setChequeList(res);
-        })
-        setHomePageLoader(true)
-        .catch((err) => {
-          toast.error(err?.response?.data?.message);
-        });
+      await Services.Cheque.chequeList().then((res) => {
+        console.log("List Of Cheque", res);
+        setChequeList(res);
+      });
+      setHomePageLoader(true).catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
     } catch (error) {
       console.log("Pending User Error", error);
     }
@@ -160,6 +158,7 @@ const ChequeList = () => {
                 inputStyle={{ width: "100%" }}
                 containerStyle={{ width: "15rem" }}
                 placeholder={"Filter by Bank Name"}
+                dropDownStyle={{ width: screenWidth <= 768 ? "auto" : "100%" }}
               />
             </div>
 
@@ -199,78 +198,91 @@ const ChequeList = () => {
               </TableHead>
 
               {homePageLoader ? (
-              <TableBody>
-                {getFilteredByBank &&
-                  getFilteredByBank?.map((bank, index) => {
-                    return (
-                      <React.Fragment key={index}>
-                        {bank?.chequeNo?.map((items, innerIndex) => (
-                          <TableRow hover tabIndex={-1} key={innerIndex}>
-                            <TableCell
-                              sx={{
-                                borderColor: colors.grey,
-                                borderWidth: 0.5,
-                                // width:"15rem"
-                              }}
-                            >
-                              <CustomText
-                                title={bank?.bankName}
-                                fontSize={14}
-                              />
-                            </TableCell>
+                <TableBody>
+                  {getFilteredByBank &&
+                    getFilteredByBank?.map((bank, index) => {
+                      return (
+                        <React.Fragment key={index}>
+                          {bank?.chequeNo?.map((items, innerIndex) => (
+                            <TableRow hover tabIndex={-1} key={innerIndex}>
+                              <TableCell
+                                sx={{
+                                  borderColor: colors.grey,
+                                  borderWidth: 0.5,
+                                  // width:"15rem"
+                                }}
+                              >
+                                <img
+                                  style={{ height: 40, width: 40 }}
+                                  src={items?.chequeImage}
+                                />
 
-                            <TableCell
-                              sx={{
-                                borderColor: colors.grey,
-                                borderWidth: 0.5,
-                              }}
-                            >
-                              <CustomText
-                                title={items?.chequeNo}
-                                fontSize={14}
-                              />
-                            </TableCell>
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  borderColor: colors.grey,
+                                  borderWidth: 0.5,
+                                  // width:"15rem"
+                                }}
+                              >
+                                <CustomText
+                                  title={bank?.bankName}
+                                  fontSize={14}
+                                />
+                              </TableCell>
 
-                            <TableCell
-                              sx={{
-                                borderColor: colors.grey,
-                                borderWidth: 0.5,
-                                cursor: "pointer",
-                                // width:"9rem"
-                              }}
-                            >
-                              <div style={{ display: "flex", marginTop: 4 }}>
-                                <div
-                                  style={commonStyle.editStyle}
-                                  onClick={() =>
-                                    handleChequeEdit(items, bank?.bankName)
-                                  }
-                                >
-                                  <img
-                                    src={icons.greyEdit1}
-                                    style={{ height: 13, width: 13 }}
-                                  />
+                              <TableCell
+                                sx={{
+                                  borderColor: colors.grey,
+                                  borderWidth: 0.5,
+                                }}
+                              >
+                                <CustomText
+                                  title={items?.chequeNo}
+                                  fontSize={14}
+                                />
+                              </TableCell>
+
+                              <TableCell
+                                sx={{
+                                  borderColor: colors.grey,
+                                  borderWidth: 0.5,
+                                  cursor: "pointer",
+                                  // width:"9rem"
+                                }}
+                              >
+                                <div style={{ display: "flex", marginTop: 4 }}>
+                                  <div
+                                    style={commonStyle.editStyle}
+                                    onClick={() =>
+                                      handleChequeEdit(items, bank?.bankName)
+                                    }
+                                  >
+                                    <img
+                                      src={icons.greyEdit1}
+                                      style={{ height: 13, width: 13 }}
+                                    />
+                                  </div>
+                                  <Spacer width={10} />
+                                  <div
+                                    style={commonStyle.deleteStyle}
+                                    onClick={() => DeleteCheque(items.chequeId)}
+                                  >
+                                    <FaTrash
+                                      style={commonStyle.deleteCenterPointer}
+                                      size={15}
+                                      color={colors.red}
+                                    />
+                                  </div>
+                                  <Spacer width={10} />
                                 </div>
-                                <Spacer width={10} />
-                                <div
-                                  style={commonStyle.deleteStyle}
-                                  onClick={() => DeleteCheque(items.chequeId)}
-                                >
-                                  <FaTrash
-                                    style={commonStyle.deleteCenterPointer}
-                                    size={15}
-                                    color={colors.red}
-                                  />
-                                </div>
-                                <Spacer width={10} />
-                              </div>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </React.Fragment>
-                    );
-                  })}
-              </TableBody>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </React.Fragment>
+                      );
+                    })}
+                </TableBody>
               ) : (
                 <TableRow>
                   <TableCell colSpan={4}>

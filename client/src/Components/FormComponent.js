@@ -26,7 +26,8 @@ const FormComponent = ({
   type,
   checked,
   readOnly,
-  inputRef
+  inputRef,
+  renderLeftItem
 }) => {
   const [show, setShow] = useState(true);
 
@@ -67,10 +68,22 @@ const FormComponent = ({
           ""
         )}
 
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            cursor: "pointer",
+            paddingRight: 5,
+          }}
+        >
+          {typeof renderLeftItem == "function" && renderLeftItem()}
+        </div>
+
         <input
           required
           type={show && passwordType ? "password" : type}
-          value={value || ''}
+          value={value || ""}
           // className={"placeholderFormComponentColor"}
           // name={name}
           placeholder={placeholder}
