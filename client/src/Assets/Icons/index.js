@@ -74,6 +74,6 @@ export const icons = {
     Zindigi: require("./Zindigi.png"),
     ZTBL: require("./ZTBL.png"),
 
-    
-    
+
+    bankIcon: require("./bank_Icon.png"),    
 }

@@ -402,7 +402,8 @@ const CreateLedger = () => {
       //   ? `${initialRateOfTax}%`
       //   : "",
       ShowPercentageIcon: true,
-      value: state.taxDeductionRate || initialRateOfTax || "",
+      value: state.taxDeductionRate
+      //  || initialRateOfTax || "",
       // initialValue: rateOfTaxList[0]
     },
     {
@@ -421,7 +422,8 @@ const CreateLedger = () => {
       },
       error: submitError.underSectionError,
       options: underSectionList?.underSection,
-      value: state.underSection || initialUnderSection || "",
+      value: state.underSection
+      //  || initialUnderSection || "",
     },
     {
       id: 6,
