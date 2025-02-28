@@ -19,7 +19,8 @@ const DashboardCards = () => {
   const [companyCount, setCompanyCount] = useState();
   const [rateOfTaxCount, setRateOfTaxCount] = useState();
   const [underSectionCount, setUnderSectionCount] = useState();
-  const [chequeCount, setChequeCount] = useState();
+  const [chequeCountForUser, setChequeCountForUser] = useState();
+  const [allChequeCount, setAllChequeCount] = useState();
   const [approvedUserCount, setApprovedUserCount] = useState();
   const [pendingUserCount, setPendingUserCount] = useState();
 
@@ -43,7 +44,8 @@ const DashboardCards = () => {
           setLedgerCount(padSingleDigit(res?.ledgerCount));
           setRateOfTaxCount(padSingleDigit(res?.rateOfTaxCount));
           setUnderSectionCount(padSingleDigit(res?.UnderSectionCount));
-          setChequeCount(padSingleDigit(res?.chequeCount));
+          setChequeCountForUser(padSingleDigit(res?.chequeCountForUser));
+          setAllChequeCount(padSingleDigit(res?.allChequeCount));
           setApprovedUserCount(padSingleDigit(res?.approvedUsersCount));
           setPendingUserCount(padSingleDigit(res?.pendingUsersCount));
 
@@ -119,7 +121,7 @@ const DashboardCards = () => {
       name: "Cheques",
       icon: <AiFillStar fontSize={20} color={colors.white} />,
       color: "#29C0B1",
-      count: chequeCount,
+      count: user?.user?.type === "admin" ? allChequeCount : chequeCountForUser,
     },
     {
       id: 8,

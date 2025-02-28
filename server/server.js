@@ -89,9 +89,10 @@ app.get('/api/get_count',authMiddleware,  async (req,res)=>{
     const rateOfTaxCount=await RateOfTax.countDocuments()
     const approvedUsersCount = await User.countDocuments({ status: 'approve' });
     const pendingUsersCount = await User.countDocuments({ status: 'pending' });
-    const chequeCount=await Cheque.countDocuments()
+    const allChequeCount=await Cheque.countDocuments()
+    const chequeCountForUser = await Cheque.countDocuments({ user: req.userId });
     const UnderSectionCount=await UnderSection.countDocuments()
-    res.json({companyCount, ledgerCount, rateOfTaxCount,approvedUsersCount,pendingUsersCount ,chequeCount,UnderSectionCount, ledgerCountForUser,companyCountForUser})
+    res.json({companyCount, ledgerCount, rateOfTaxCount,approvedUsersCount,pendingUsersCount, allChequeCount ,chequeCountForUser ,UnderSectionCount, ledgerCountForUser,companyCountForUser})
   }
   catch(e){
     res.status(500).json({ message: error.message });
