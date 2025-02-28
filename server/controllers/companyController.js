@@ -211,7 +211,7 @@ exports.deleteCompany = async (req, res) => {
 
   try {
     // Find the company to be deleted
-    const company = await Company.findOne({ _id: companyId, user: req.userId });
+    const company = await Company.findOne({ _id: companyId});
 
     if (!company) {
       return res.status(404).json({ message: "Company not found" });
@@ -222,6 +222,11 @@ exports.deleteCompany = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the user is either the owner of the company or an admin
+    if (company.user.toString() !== req.userId && user.type !== "admin") {
+      return res.status(403).json({ message: "Not authorized to delete this company" });
     }
 
     // Remove the company from the user's companies array
