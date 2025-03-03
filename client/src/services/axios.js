@@ -15,6 +15,12 @@ const instance = Axios.create({
 
 instance.interceptors.request.use(
   async (config) => {
+
+    if (!navigator.onLine) {
+      toast.error("Please check your internet connection.");
+      return Promise.reject({ message: "No Internet Connection" });
+    }
+    
     const { tokens } = store?.getState()?.authReducer;
     console.log("Axios Token", tokens?.access_token);
 
